@@ -2,6 +2,8 @@
 
 AI-powered stock price prediction system for Indian bank stocks using advanced Transformer models.
 
+🌐 **Live Demo**: https://web-ep6d3ezl5-rohith-koripellis-projects.vercel.app
+
 ## Features
 
 - Next-day price predictions for 8 major Indian bank stocks
@@ -75,12 +77,23 @@ Stock_Price_Prediction/
 
 ### Generating New Predictions
 
-Run the prediction script:
+**Option 1: Automated Update Script (Recommended)**
+```bash
+./update_predictions.sh
+```
+This script will:
+1. Generate new predictions
+2. Copy them to the web directory
+3. Commit and push to GitHub
+4. Deploy to Vercel automatically
+
+**Option 2: Manual Update**
 ```bash
 python generate_future_predictions.py
+cp future_predictions_next_day.json web/
+cd web
+vercel --prod --yes
 ```
-
-This will generate fresh predictions in `future_predictions_next_day.json`.
 
 ## Deployment
 

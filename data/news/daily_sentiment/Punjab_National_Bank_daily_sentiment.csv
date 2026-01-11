@@ -1,0 +1,5 @@
+date,avg_sentiment,std_sentiment,min_sentiment,max_sentiment,article_count,sentiment_distribution,bank
+2025-11-25,0.2023,,0.2023,0.2023,1,{'positive': 1},Punjab National Bank
+2025-12-01,0.0,,0.0,0.0,1,{'neutral': 1},Punjab National Bank
+2025-12-03,-0.21395,0.7211782061321598,-0.7239,0.296,2,"{'negative': 1, 'positive': 1}",Punjab National Bank
+2025-12-04,-0.0005,,-0.0005,-0.0005,1,{'neutral': 1},Punjab National Bank

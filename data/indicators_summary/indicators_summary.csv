@@ -1,0 +1,9 @@
+Stock,Date,Close_Price,RSI_14,MACD,MACD_Signal,BB_Position,ADX,Stoch_K,ATR_14,Volume_vs_Avg,Signals
+HDFC Bank,2025-11-28,₹1007.60,58.78,4.79,3.68,0.92,12.05,77.42,14.17,0.88x,"MACD: Bullish, Golden Cross"
+ICICI Bank,2025-11-28,₹1388.80,56.29,2.74,-0.59,0.82,13.62,81.45,17.14,0.69x,"MACD: Bullish, Death Cross"
+Kotak Mahindra Bank,2025-11-28,₹2124.40,56.24,-2.02,-4.43,1.08,15.86,77.92,31.96,1.04x,"MACD: Bullish, Golden Cross"
+Axis Bank,2025-11-28,₹1279.70,64.33,20.74,19.66,0.79,50.59,74.31,19.28,0.61x,"MACD: Bullish, Golden Cross"
+State Bank of India,2025-11-28,₹979.00,66.15,18.09,20.38,0.76,51.63,62.93,13.16,0.82x,"MACD: Bearish, Golden Cross"
+Punjab National Bank,2025-11-28,₹124.50,60.08,1.68,1.82,0.82,14.03,71.80,2.32,0.74x,"MACD: Bearish, Golden Cross"
+Bank of Baroda,2025-11-28,₹289.80,60.57,4.31,5.20,0.73,25.84,63.86,5.87,0.87x,"MACD: Bearish, Golden Cross"
+Canara Bank,2025-11-28,₹151.58,74.99,5.32,5.42,0.86,46.74,93.68,3.09,0.70x,"RSI: Overbought, MACD: Bearish, Golden Cross"

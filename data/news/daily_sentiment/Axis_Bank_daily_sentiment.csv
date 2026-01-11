@@ -1,0 +1,2 @@
+date,avg_sentiment,std_sentiment,min_sentiment,max_sentiment,article_count,sentiment_distribution,bank
+2025-12-03,0.6908,,0.6908,0.6908,1,{'positive': 1},Axis Bank

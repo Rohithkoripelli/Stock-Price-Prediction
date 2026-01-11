@@ -1,0 +1,11 @@
+{
+  "stock": "ICICI Bank",
+  "ticker": "ICICIBANK",
+  "sector": "Private Banks",
+  "epochs_run": 37,
+  "training_time_seconds": 106.079992,
+  "best_metrics": {
+    "val_loss": 0.056213025003671646,
+    "val_mape": 24.13971710205078
+  }
+}

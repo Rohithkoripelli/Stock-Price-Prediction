@@ -1,0 +1,9 @@
+Sector,Bank,Articles,Positive,Negative,Neutral,Positive %,Avg Sentiment
+Private Banks,HDFC Bank,168,102,23,43,60.7,0.3681
+Private Banks,ICICI Bank,162,80,27,55,49.4,0.2586
+Private Banks,Kotak Mahindra Bank,134,81,16,37,60.4,0.3261
+Private Banks,Axis Bank,143,81,12,50,56.6,0.3287
+PSU Banks,State Bank of India,181,75,36,70,41.4,0.1381
+PSU Banks,Punjab National Bank,176,89,33,54,50.6,0.2129
+PSU Banks,Bank of Baroda,188,84,27,77,44.7,0.2157
+PSU Banks,Canara Bank,99,62,6,31,62.6,0.4044

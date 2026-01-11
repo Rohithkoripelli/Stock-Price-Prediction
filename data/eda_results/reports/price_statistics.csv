@@ -1,0 +1,9 @@
+Bank,Sector,Start Price,End Price,Total Return (%),Annualized Return (%),Annualized Volatility (%),Sharpe Ratio,Max Drawdown (%)
+HDFC Bank,Private Banks,₹504.39,₹1007.60,99.77,10.54,25.04,0.53,-41.05
+ICICI Bank,Private Banks,₹350.96,₹1388.80,295.72,22.03,29.67,0.83,-48.31
+Kotak Mahindra Bank,Private Banks,₹1244.58,₹2124.40,70.69,8.05,27.69,0.42,-36.50
+Axis Bank,Private Banks,₹623.92,₹1279.70,105.11,10.96,33.63,0.49,-63.11
+State Bank of India,PSU Banks,₹276.45,₹979.00,254.14,20.09,31.71,0.75,-59.49
+Punjab National Bank,PSU Banks,₹74.04,₹124.50,68.15,7.81,39.07,0.39,-72.94
+Bank of Baroda,PSU Banks,₹109.31,₹289.80,165.12,15.16,39.81,0.56,-74.10
+Canara Bank,PSU Banks,₹49.22,₹151.58,207.95,17.68,40.81,0.61,-74.33

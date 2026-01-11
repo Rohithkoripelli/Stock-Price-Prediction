@@ -1,0 +1,9 @@
+Sector,Bank,Total Articles,Positive,Neutral,Negative,Avg Sentiment_newsapi,Date Range,Articles,Avg Sentiment_gnews,Total_Articles,Combined_Avg_Sentiment
+Private Banks,Axis Bank,1,1,0,0,0.6908,2025-12-03 to 2025-12-03,143,0.3287,144,0.0
+PSU Banks,Bank of Baroda,2,1,0,1,-0.0569,2025-12-05 to 2025-12-06,188,0.2157,190,0.0
+PSU Banks,Canara Bank,3,2,1,0,0.2142,2025-11-25 to 2025-12-08,99,0.4044,102,0.0
+Private Banks,HDFC Bank,10,8,1,1,0.5718,2025-11-25 to 2025-12-07,168,0.3681,178,0.0
+Private Banks,ICICI Bank,9,7,1,1,0.4528,2025-11-25 to 2025-12-08,162,0.2586,171,0.0
+Private Banks,Kotak Mahindra Bank,0,0,0,0,,,134,0.3261,134,0.0
+PSU Banks,Punjab National Bank,5,2,2,1,-0.0452,2025-11-25 to 2025-12-04,176,0.2129,181,0.0
+PSU Banks,State Bank of India,13,9,3,1,0.476,2025-12-01 to 2025-12-08,181,0.1381,194,0.0

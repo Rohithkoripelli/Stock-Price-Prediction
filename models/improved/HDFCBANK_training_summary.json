@@ -1,0 +1,11 @@
+{
+  "stock": "HDFC Bank",
+  "ticker": "HDFCBANK",
+  "sector": "Private Banks",
+  "epochs_run": 54,
+  "training_time_seconds": 172.942122,
+  "best_metrics": {
+    "val_loss": 0.007541688159108162,
+    "val_mape": 9.92459487915039
+  }
+}

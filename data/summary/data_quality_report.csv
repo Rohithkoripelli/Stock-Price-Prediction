@@ -1,0 +1,9 @@
+Bank,Missing Values,Duplicate Dates,Large Gaps (>5 days),Quality
+HDFC Bank,0,0,0,✓ Good
+ICICI Bank,0,0,0,✓ Good
+Kotak Mahindra Bank,0,0,0,✓ Good
+Axis Bank,0,0,0,✓ Good
+State Bank of India,0,0,0,✓ Good
+Punjab National Bank,0,0,0,✓ Good
+Bank of Baroda,0,0,0,✓ Good
+Canara Bank,0,0,0,✓ Good

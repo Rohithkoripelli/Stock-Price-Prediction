@@ -1,0 +1,11 @@
+{
+  "stock": "State Bank of India",
+  "ticker": "SBIN",
+  "sector": "PSU Banks",
+  "epochs_run": 45,
+  "training_time_seconds": 124.380568,
+  "best_metrics": {
+    "val_loss": 0.07759646326303482,
+    "val_mape": 34.36063766479492
+  }
+}

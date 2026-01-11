@@ -1,0 +1,9 @@
+Sector,Bank,Ticker,Records,Start Date,End Date,Current Price,Min Price,Max Price,Avg Volume,Total Return %,File
+Private Banks,HDFC Bank,HDFCBANK.NS,1709,2019-01-01,2025-11-28,₹1007.60,₹363.57,₹1012.90,"23,910,945",99.77%,data/stocks/private_banks/HDFCBANK_data.csv
+Private Banks,ICICI Bank,ICICIBANK.NS,1709,2019-01-01,2025-11-28,₹1388.80,₹274.68,₹1477.20,"18,506,050",295.72%,data/stocks/private_banks/ICICIBANK_data.csv
+Private Banks,Kotak Mahindra Bank,KOTAKBANK.NS,1709,2019-01-01,2025-11-28,₹2124.40,₹1093.68,₹2266.19,"4,103,186",70.69%,data/stocks/private_banks/KOTAKBANK_data.csv
+Private Banks,Axis Bank,AXISBANK.NS,1709,2019-01-01,2025-11-28,₹1279.70,₹301.89,₹1316.18,"12,547,867",105.11%,data/stocks/private_banks/AXISBANK_data.csv
+PSU Banks,State Bank of India,SBIN.NS,1709,2019-01-01,2025-11-28,₹979.00,₹139.19,₹983.90,"26,553,202",254.14%,data/stocks/psu_banks/SBIN_data.csv
+PSU Banks,Punjab National Bank,PNB.NS,1709,2019-01-01,2025-11-28,₹124.50,₹24.68,₹135.48,"52,440,894",68.15%,data/stocks/psu_banks/PNB_data.csv
+PSU Banks,Bank of Baroda,BANKBARODA.NS,1709,2019-01-01,2025-11-28,₹289.80,₹32.36,₹293.30,"27,148,654",165.12%,data/stocks/psu_banks/BANKBARODA_data.csv
+PSU Banks,Canara Bank,CANBK.NS,1709,2019-01-01,2025-11-28,₹151.58,₹13.31,₹151.76,"52,217,107",207.95%,data/stocks/psu_banks/CANBK_data.csv

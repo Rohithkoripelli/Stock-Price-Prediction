@@ -1,0 +1,81 @@
+{
+  "lookback_window": 60,
+  "train_split": 0.7,
+  "val_split": 0.15,
+  "test_split": 0.15,
+  "approach": "percentage_change",
+  "stocks_processed": [
+    {
+      "bank_name": "HDFC Bank",
+      "ticker": "HDFCBANK",
+      "sector": "Private Banks",
+      "n_samples": 2161,
+      "train_samples": 1512,
+      "val_samples": 324,
+      "test_samples": 325
+    },
+    {
+      "bank_name": "ICICI Bank",
+      "ticker": "ICICIBANK",
+      "sector": "Private Banks",
+      "n_samples": 2161,
+      "train_samples": 1512,
+      "val_samples": 324,
+      "test_samples": 325
+    },
+    {
+      "bank_name": "Kotak Mahindra Bank",
+      "ticker": "KOTAKBANK",
+      "sector": "Private Banks",
+      "n_samples": 2161,
+      "train_samples": 1512,
+      "val_samples": 324,
+      "test_samples": 325
+    },
+    {
+      "bank_name": "Axis Bank",
+      "ticker": "AXISBANK",
+      "sector": "Private Banks",
+      "n_samples": 2161,
+      "train_samples": 1512,
+      "val_samples": 324,
+      "test_samples": 325
+    },
+    {
+      "bank_name": "State Bank of India",
+      "ticker": "SBIN",
+      "sector": "PSU Banks",
+      "n_samples": 2161,
+      "train_samples": 1512,
+      "val_samples": 324,
+      "test_samples": 325
+    },
+    {
+      "bank_name": "Punjab National Bank",
+      "ticker": "PNB",
+      "sector": "PSU Banks",
+      "n_samples": 2161,
+      "train_samples": 1512,
+      "val_samples": 324,
+      "test_samples": 325
+    },
+    {
+      "bank_name": "Bank of Baroda",
+      "ticker": "BANKBARODA",
+      "sector": "PSU Banks",
+      "n_samples": 2161,
+      "train_samples": 1512,
+      "val_samples": 324,
+      "test_samples": 325
+    },
+    {
+      "bank_name": "Canara Bank",
+      "ticker": "CANBK",
+      "sector": "PSU Banks",
+      "n_samples": 2161,
+      "train_samples": 1512,
+      "val_samples": 324,
+      "test_samples": 325
+    }
+  ]
+}

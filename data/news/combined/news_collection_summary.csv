@@ -1,0 +1,9 @@
+Sector,Bank,Articles,Date Range,Sources,File
+Private Banks,HDFC Bank,10,2025-11-25 to 2025-12-07,3,data/news/private_banks/HDFC_Bank_news.csv
+Private Banks,ICICI Bank,9,2025-11-25 to 2025-12-08,3,data/news/private_banks/ICICI_Bank_news.csv
+Private Banks,Kotak Mahindra Bank,0,N/A,0,N/A
+Private Banks,Axis Bank,1,2025-12-03 to 2025-12-03,1,data/news/private_banks/Axis_Bank_news.csv
+PSU Banks,State Bank of India,13,2025-12-01 to 2025-12-08,4,data/news/psu_banks/State_Bank_of_India_news.csv
+PSU Banks,Punjab National Bank,5,2025-11-25 to 2025-12-04,4,data/news/psu_banks/Punjab_National_Bank_news.csv
+PSU Banks,Bank of Baroda,2,2025-12-05 to 2025-12-06,2,data/news/psu_banks/Bank_of_Baroda_news.csv
+PSU Banks,Canara Bank,3,2025-11-25 to 2025-12-08,2,data/news/psu_banks/Canara_Bank_news.csv

@@ -95,6 +95,29 @@ cd web
 vercel --prod --yes
 ```
 
+## Automated Daily Updates
+
+This project includes **automated daily predictions** via GitHub Actions:
+
+### How It Works
+- **Daily (10 PM IST)**: Automatically fetches latest stock data, generates predictions, and updates the website
+- **Weekly (Sunday 2 AM IST)**: Full model retraining with comprehensive data collection
+
+### Features
+- ✅ Automatic data collection (stock prices, technical indicators)
+- ✅ News sentiment analysis (GNews API integration)
+- ✅ Daily prediction generation
+- ✅ Auto-deployment to Vercel
+- ✅ Zero manual intervention required
+
+### Setup
+See [AUTOMATION_GUIDE.md](AUTOMATION_GUIDE.md) for detailed setup instructions.
+
+Quick start:
+1. Add `GNEWS_API_KEY` to GitHub Secrets (optional but recommended)
+2. Enable GitHub Actions in your repository
+3. Predictions will auto-update daily at 10 PM IST
+
 ## Deployment
 
 This project is configured for deployment on Vercel:
@@ -103,6 +126,7 @@ This project is configured for deployment on Vercel:
 2. Import the repository in Vercel
 3. Vercel will automatically detect the configuration
 4. Deploy!
+5. Predictions auto-update daily via GitHub Actions
 
 ## Model Information
 

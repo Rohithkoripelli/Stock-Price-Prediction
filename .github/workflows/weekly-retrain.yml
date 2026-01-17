@@ -1,0 +1,85 @@
+name: Weekly Model Retraining
+
+on:
+  # Schedule: Run every Sunday at 2 AM IST (8:30 PM Saturday UTC)
+  schedule:
+    - cron: '30 20 * * 6'  # 8:30 PM Saturday UTC = 2:00 AM Sunday IST
+
+  # Allow manual triggering
+  workflow_dispatch:
+
+jobs:
+  retrain-models:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360  # 6 hours max
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy pandas yfinance requests tensorflow keras scikit-learn
+
+      - name: Collect comprehensive data
+        env:
+          GNEWS_API_KEY: ${{ secrets.GNEWS_API_KEY }}
+        run: |
+          echo "Collecting comprehensive stock data..."
+          python collect_stock_data.py
+          python calculate_technical_indicators.py
+
+      - name: Prepare features
+        run: |
+          echo "Preparing features for modeling..."
+          python prepare_features_for_modeling.py
+
+      - name: Retrain models
+        run: |
+          echo "Retraining models (this may take a while)..."
+          # Set environment to use CPU only
+          export CUDA_VISIBLE_DEVICES=""
+          export TF_CPP_MIN_LOG_LEVEL=2
+
+          # Train all models
+          python train_all_v5_transformer.py
+
+      - name: Generate fresh predictions
+        run: |
+          echo "Generating predictions with retrained models..."
+          python generate_daily_predictions.py
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          # Add model updates (if not too large)
+          git add data/ || true
+          git add future_predictions_next_day.json future_predictions_next_day.csv
+          git add web/future_predictions_next_day.json
+
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Weekly model retraining - $(date '+%Y-%m-%d %H:%M:%S UTC')"
+            git push
+          fi
+
+      - name: Create summary report
+        run: |
+          echo "# Weekly Retraining Report" > retrain_report.md
+          echo "**Date**: $(date)" >> retrain_report.md
+          echo "**Status**: Completed" >> retrain_report.md
+          echo "" >> retrain_report.md
+          cat prediction_metadata.json >> retrain_report.md || true

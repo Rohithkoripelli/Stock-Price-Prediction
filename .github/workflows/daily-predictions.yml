@@ -8,6 +8,9 @@ on:
   # Allow manual triggering
   workflow_dispatch:
 
+permissions:
+  contents: write  # Allow workflow to push changes
+
 jobs:
   generate-predictions:
     runs-on: ubuntu-latest
@@ -61,9 +64,13 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add future_predictions_next_day.json future_predictions_next_day.csv
+
+          # Add prediction files
+          git add future_predictions_next_day.json future_predictions_next_day.csv prediction_metadata.json
           git add web/future_predictions_next_day.json
-          git add data/stocks/daily_updates/ data/news/daily_updates/ data/collection_summary.json prediction_metadata.json || true
+
+          # Add data files (may not exist, so use || true)
+          git add data/stocks/ data/collection_summary.json 2>/dev/null || true
 
           # Check if there are changes to commit
           if git diff --staged --quiet; then

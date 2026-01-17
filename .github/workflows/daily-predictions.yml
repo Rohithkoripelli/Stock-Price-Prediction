@@ -27,14 +27,29 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install numpy pandas yfinance requests tensorflow keras
+          pip install numpy pandas yfinance requests tensorflow keras huggingface_hub
 
-      - name: Collect daily data
+      - name: Download models from Hugging Face
         env:
-          GNEWS_API_KEY: ${{ secrets.GNEWS_API_KEY }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          echo "Downloading trained models from Hugging Face..."
+          python download_models_from_hf.py
+
+      - name: Collect stock data
         run: |
           echo "Collecting latest stock data..."
-          python daily_data_collection.py
+          python collect_stock_data.py
+
+      - name: Calculate technical indicators
+        run: |
+          echo "Calculating technical indicators..."
+          python calculate_technical_indicators.py
+
+      - name: Prepare enhanced features
+        run: |
+          echo "Preparing enhanced features..."
+          python prepare_enhanced_features.py
 
       - name: Generate predictions
         run: |

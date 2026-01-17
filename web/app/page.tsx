@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import ChatInterface from '@/components/ChatInterface';
 
 interface StockPrediction {
   Stock: string;
@@ -89,6 +90,11 @@ export default function Home() {
               <p className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</p>
             </div>
           ))}
+        </div>
+
+        {/* Chat Interface */}
+        <div className="mb-8">
+          <ChatInterface />
         </div>
 
         {/* Predictions Grid */}

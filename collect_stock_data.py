@@ -32,7 +32,9 @@ banking_stocks = {
 
 # Download parameters
 START_DATE = '2019-01-01'  # 5+ years of data
-END_DATE = '2025-11-30'
+# Auto-fetch until yesterday (T-1)
+from datetime import timedelta
+END_DATE = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
 
 print("=" * 80)
 print("COLLECTING INDIAN BANKING STOCK DATA".center(80))

@@ -58,7 +58,7 @@ export default function ChatInterface() {
           Ask About Predictions
         </h2>
         <p className="text-sm text-gray-600 dark:text-gray-400">
-          Ask questions like "What's the prediction for HDFC Bank?" or "Which stocks should I buy?"
+          Ask questions like &quot;What&apos;s the prediction for HDFC Bank?&quot; or &quot;Which stocks should I buy?&quot;
         </p>
       </div>
 
@@ -126,19 +126,19 @@ export default function ChatInterface() {
       {/* Example Questions */}
       <div className="mt-4 flex flex-wrap gap-2">
         <button
-          onClick={() => setInput("What's the prediction for HDFC Bank?")}
+          onClick={() => setInput('What is the prediction for HDFC Bank?')}
           className="text-xs px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
         >
           Prediction for HDFC Bank?
         </button>
         <button
-          onClick={() => setInput("Which stocks are strong buy?")}
+          onClick={() => setInput('Which stocks are strong buy?')}
           className="text-xs px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
         >
           Strong buy stocks?
         </button>
         <button
-          onClick={() => setInput("What's the best opportunity today?")}
+          onClick={() => setInput('What is the best opportunity today?')}
           className="text-xs px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
         >
           Best opportunity?

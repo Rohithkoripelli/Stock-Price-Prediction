@@ -1,0 +1,39 @@
+{
+  "timestamp": "2026-01-17T11:11:39.753922",
+  "stocks_updated": 8,
+  "total_stocks": 8,
+  "results": {
+    "HDFCBANK": {
+      "success": true,
+      "price": 931.0999755859375
+    },
+    "ICICIBANK": {
+      "success": true,
+      "price": 1410.800048828125
+    },
+    "KOTAKBANK": {
+      "success": true,
+      "price": 418.20001220703125
+    },
+    "AXISBANK": {
+      "success": true,
+      "price": 1294.199951171875
+    },
+    "SBIN": {
+      "success": true,
+      "price": 1042.300048828125
+    },
+    "PNB": {
+      "success": true,
+      "price": 132.36000061035156
+    },
+    "BANKBARODA": {
+      "success": true,
+      "price": 308.25
+    },
+    "CANBK": {
+      "success": true,
+      "price": 157.1300048828125
+    }
+  }
+}

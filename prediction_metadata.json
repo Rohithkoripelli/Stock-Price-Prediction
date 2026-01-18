@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-01-17T16:48:11.347551",
+  "generated_at": "2026-01-18T16:49:57.197484",
   "total_predictions": 8,
-  "strong_buy": 0,
+  "strong_buy": 1,
   "strong_sell": 4,
   "model_version": "v5_transformer"
 }

@@ -5,27 +5,27 @@
     "Current_Price": 925.4500122070312,
     "Predicted_Direction": "DOWN",
     "Direction_Confidence": 62.675697326660156,
-    "Predicted_Change_Pct": -0.04996908828616142,
+    "Predicted_Change_Pct": -0.04996916279196739,
     "Predicted_Price_Low": 915.179066966597,
     "Predicted_Price_Mid": 924.9875965444844,
     "Predicted_Price_High": 934.7960709612526,
     "Range_Pct": 1.0598645210266113,
     "Potential_Gain_Loss_Mid": -0.46241566254684585,
-    "Generated_At": "2026-01-18T16:49:53.060762"
+    "Generated_At": "2026-01-19T16:57:58.382580"
   },
   {
     "Stock": "ICICI Bank",
     "Ticker": "ICICIBANK",
     "Current_Price": 1418.4000244140625,
     "Predicted_Direction": "UP",
-    "Direction_Confidence": 60.44218444824219,
-    "Predicted_Change_Pct": 1.0744329690933228,
-    "Predicted_Price_Low": 1418.1314305736087,
-    "Predicted_Price_Mid": 1433.6397869825887,
-    "Predicted_Price_High": 1449.1480588483391,
-    "Range_Pct": 1.0933672189712524,
-    "Potential_Gain_Loss_Mid": 15.239762568526203,
-    "Generated_At": "2026-01-18T16:49:53.628751"
+    "Direction_Confidence": 60.43130874633789,
+    "Predicted_Change_Pct": 1.074705719947815,
+    "Predicted_Price_Low": 1418.1330368949712,
+    "Predicted_Price_Mid": 1433.6436759711505,
+    "Predicted_Price_High": 1449.1543150473299,
+    "Range_Pct": 1.0935304164886475,
+    "Potential_Gain_Loss_Mid": 15.243651557088015,
+    "Generated_At": "2026-01-19T16:57:58.927845"
   },
   {
     "Stock": "Kotak Mahindra Bank",
@@ -33,13 +33,13 @@
     "Current_Price": 421.0,
     "Predicted_Direction": "DOWN",
     "Direction_Confidence": 64.78807067871094,
-    "Predicted_Change_Pct": -0.34585607051849365,
+    "Predicted_Change_Pct": -0.3458555340766907,
     "Predicted_Price_Low": 415.21530812978745,
     "Predicted_Price_Mid": 419.54394644498825,
     "Predicted_Price_High": 423.8725596666336,
     "Range_Pct": 1.0281789302825928,
     "Potential_Gain_Loss_Mid": -1.4560535550117493,
-    "Generated_At": "2026-01-18T16:49:54.190390"
+    "Generated_At": "2026-01-19T16:57:59.474073"
   },
   {
     "Stock": "Axis Bank",
@@ -47,13 +47,13 @@
     "Current_Price": 1298.800048828125,
     "Predicted_Direction": "DOWN",
     "Direction_Confidence": 63.208126068115234,
-    "Predicted_Change_Pct": -0.08727563172578812,
+    "Predicted_Change_Pct": -0.08727605640888214,
     "Predicted_Price_Low": 1284.0047414462606,
     "Predicted_Price_Mid": 1297.66654549152,
     "Predicted_Price_High": 1311.3283495367796,
     "Range_Pct": 1.0518780946731567,
     "Potential_Gain_Loss_Mid": -1.1335033366049174,
-    "Generated_At": "2026-01-18T16:49:54.956529"
+    "Generated_At": "2026-01-19T16:58:00.143765"
   },
   {
     "Stock": "State Bank of India",
@@ -61,27 +61,27 @@
     "Current_Price": 1028.3499755859375,
     "Predicted_Direction": "DOWN",
     "Direction_Confidence": 58.92915725708008,
-    "Predicted_Change_Pct": -0.16545093059539795,
+    "Predicted_Change_Pct": -0.1654508262872696,
     "Predicted_Price_Low": 1015.1715494721575,
     "Predicted_Price_Mid": 1026.6485646592191,
     "Predicted_Price_High": 1038.1255798462807,
     "Range_Pct": 1.1160626411437988,
     "Potential_Gain_Loss_Mid": -1.7014109267183812,
-    "Generated_At": "2026-01-18T16:49:55.514836"
+    "Generated_At": "2026-01-19T16:58:00.670413"
   },
   {
     "Stock": "Punjab National Bank",
     "Ticker": "PNB",
     "Current_Price": 128.67999267578125,
     "Predicted_Direction": "DOWN",
-    "Direction_Confidence": 59.276939392089844,
-    "Predicted_Change_Pct": -0.4240497052669525,
-    "Predicted_Price_Low": 126.70488721406946,
-    "Predicted_Price_Mid": 128.13432351357187,
-    "Predicted_Price_High": 129.56376748299954,
-    "Range_Pct": 1.110845923423767,
-    "Potential_Gain_Loss_Mid": -0.5456691622093786,
-    "Generated_At": "2026-01-18T16:49:56.074394"
+    "Direction_Confidence": 59.283233642578125,
+    "Predicted_Change_Pct": -0.42384302616119385,
+    "Predicted_Price_Low": 126.70527838025737,
+    "Predicted_Price_Mid": 128.13459196095573,
+    "Predicted_Price_High": 129.5639055416541,
+    "Range_Pct": 1.1107515096664429,
+    "Potential_Gain_Loss_Mid": -0.5454007148255187,
+    "Generated_At": "2026-01-19T16:58:01.204580"
   },
   {
     "Stock": "Bank of Baroda",
@@ -95,20 +95,20 @@
     "Predicted_Price_High": 307.1424839096617,
     "Range_Pct": 1.1465308666229248,
     "Potential_Gain_Loss_Mid": -4.08540464753969,
-    "Generated_At": "2026-01-18T16:49:56.632508"
+    "Generated_At": "2026-01-19T16:58:01.734761"
   },
   {
     "Stock": "Canara Bank",
     "Ticker": "CANBK",
     "Current_Price": 153.88999938964844,
     "Predicted_Direction": "DOWN",
-    "Direction_Confidence": 63.57796096801758,
-    "Predicted_Change_Pct": -0.15784591436386108,
+    "Direction_Confidence": 63.57794952392578,
+    "Predicted_Change_Pct": -0.1578460931777954,
     "Predicted_Price_Low": 152.036894863445,
     "Predicted_Price_Mid": 153.64709168888112,
     "Predicted_Price_High": 155.25727934175848,
-    "Range_Pct": 1.0463305711746216,
+    "Range_Pct": 1.0463306903839111,
     "Potential_Gain_Loss_Mid": -0.2429077007673186,
-    "Generated_At": "2026-01-18T16:49:57.192521"
+    "Generated_At": "2026-01-19T16:58:02.268937"
   }
 ]

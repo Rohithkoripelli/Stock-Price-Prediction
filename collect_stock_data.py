@@ -33,8 +33,9 @@ banking_stocks = {
 # Download parameters
 START_DATE = '2019-01-01'  # 5+ years of data
 # Auto-fetch until yesterday (T-1)
+# Note: yfinance end date is EXCLUSIVE, so we add 1 day to include yesterday
 from datetime import timedelta
-END_DATE = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
+END_DATE = datetime.now().strftime('%Y-%m-%d')  # Today's date (to include yesterday's data)
 
 print("=" * 80)
 print("COLLECTING INDIAN BANKING STOCK DATA".center(80))

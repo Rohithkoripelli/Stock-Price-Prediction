@@ -65,18 +65,20 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
 
-          # Add prediction files
+          # Add prediction files (required)
           git add future_predictions_next_day.json future_predictions_next_day.csv prediction_metadata.json
           git add web/future_predictions_next_day.json
 
-          # Add data files (may not exist, so use || true)
-          git add data/stocks/ data/collection_summary.json 2>/dev/null || true
+          # Add fresh data files
+          git add data/stocks/ 2>/dev/null || true
+          git add data/enhanced_model_ready/*.pkl 2>/dev/null || true
+          git add data/collection_summary.json 2>/dev/null || true
 
           # Check if there are changes to commit
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Auto-update predictions - $(date '+%Y-%m-%d %H:%M:%S UTC')"
+            git commit -m "Auto-update: predictions + data ($(date '+%Y-%m-%d'))"
             git push
           fi
 

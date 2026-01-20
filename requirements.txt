@@ -19,3 +19,14 @@ seaborn>=0.12.0
 # Utilities
 python-dateutil>=2.8.0
 pytz>=2023.3
+
+# FinBERT for Financial Sentiment Analysis
+transformers>=4.35.0
+torch>=2.0.0
+sentencepiece>=0.1.99
+accelerate>=0.24.0
+
+# News Scraping
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+gnews>=0.3.0

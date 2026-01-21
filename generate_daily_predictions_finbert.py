@@ -27,14 +27,14 @@ print("=" * 80)
 # =============================================================================
 
 STOCKS = [
-    ('HDFCBANK', 'HDFC Bank'),
-    ('ICICIBANK', 'ICICI Bank'),
-    ('KOTAKBANK', 'Kotak Mahindra Bank'),
-    ('AXISBANK', 'Axis Bank'),
-    ('SBIN', 'State Bank of India'),
-    ('PNB', 'Punjab National Bank'),
-    ('BANKBARODA', 'Bank of Baroda'),
-    ('CANBK', 'Canara Bank')
+    ('HDFCBANK', 'HDFC Bank', 'private_banks'),
+    ('ICICIBANK', 'ICICI Bank', 'private_banks'),
+    ('KOTAKBANK', 'Kotak Mahindra Bank', 'private_banks'),
+    ('AXISBANK', 'Axis Bank', 'private_banks'),
+    ('SBIN', 'State Bank of India', 'psu_banks'),
+    ('PNB', 'Punjab National Bank', 'psu_banks'),
+    ('BANKBARODA', 'Bank of Baroda', 'psu_banks'),
+    ('CANBK', 'Canara Bank', 'psu_banks')
 ]
 
 # =============================================================================
@@ -43,7 +43,7 @@ STOCKS = [
 
 all_predictions = []
 
-for ticker, stock_name in STOCKS:
+for ticker, stock_name, sector in STOCKS:
     print(f"\n{'='*80}")
     print(f"PREDICTING: {stock_name} ({ticker})".center(80))
     print("="*80)
@@ -59,8 +59,13 @@ for ticker, stock_name in STOCKS:
 
         # Get base price from the raw data
         # Load stock data to get the last closing price
-        stock_data = pd.read_csv(f'data/stocks/{ticker}.NS.csv', parse_dates=['Date'])
-        stock_data = stock_data.sort_values('Date')
+        stock_data = pd.read_csv(
+            f'data/stocks/{sector}/{ticker}_data.csv',
+            skiprows=[1, 2],  # Skip ticker row (index 1) and empty row (index 2), keep header (index 0)
+            index_col=0,  # Price/Date column is first
+            parse_dates=[0]  # Parse Date column
+        )
+        stock_data = stock_data.sort_index()  # Sort by date index
         base_price_last = stock_data['Close'].iloc[-1]
 
         print(f"   ✓ Loaded last sequence with FinBERT features")

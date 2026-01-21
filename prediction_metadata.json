@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-01-21T12:07:38.806415",
-  "model_type": "V5_Transformer_FinBERT",
-  "features_per_stock": 39,
+  "generated_at": "2026-01-21T16:52:48.072664",
+  "model_type": "V5_Transformer_Advanced Signals",
+  "features_per_stock": 51,
   "total_stocks": 8,
-  "avg_confidence": 76.30920648574829,
-  "high_confidence_count": 6
+  "avg_confidence": 81.83309650421143,
+  "high_confidence_count": 7
 }

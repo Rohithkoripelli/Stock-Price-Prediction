@@ -1,0 +1,25 @@
+{
+  "stock": "Kotak Mahindra Bank",
+  "ticker": "KOTAKBANK",
+  "approach": "v5_transformer_finbert",
+  "n_features": 39,
+  "finbert_features": [
+    "sentiment_score",
+    "news_volume",
+    "sentiment_polarity",
+    "earnings_event"
+  ],
+  "test_metrics": {
+    "Directional_Accuracy": 100.0,
+    "Average_Confidence": 43.68938446044922,
+    "High_Confidence_Count": 0,
+    "High_Confidence_Accuracy": 0.0,
+    "Directional_Accuracy_Significant": 100.0
+  },
+  "training": {
+    "epochs": 22,
+    "time_minutes": 0.9069949333333334,
+    "best_val_dir_acc": 70.7207202911377,
+    "best_val_auc": 79.00271415710449
+  }
+}

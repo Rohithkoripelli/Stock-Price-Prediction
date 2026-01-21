@@ -1,0 +1,25 @@
+{
+  "stock": "HDFC Bank",
+  "ticker": "HDFCBANK",
+  "approach": "v5_transformer_finbert",
+  "n_features": 39,
+  "finbert_features": [
+    "sentiment_score",
+    "news_volume",
+    "sentiment_polarity",
+    "earnings_event"
+  ],
+  "test_metrics": {
+    "Directional_Accuracy": 100.0,
+    "Average_Confidence": 68.55579376220703,
+    "High_Confidence_Count": 135,
+    "High_Confidence_Accuracy": 100.0,
+    "Directional_Accuracy_Significant": 100.0
+  },
+  "training": {
+    "epochs": 21,
+    "time_minutes": 0.7303432333333333,
+    "best_val_dir_acc": 93.24324131011963,
+    "best_val_auc": 97.20369577407837
+  }
+}

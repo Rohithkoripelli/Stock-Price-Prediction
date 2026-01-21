@@ -1,0 +1,25 @@
+{
+  "stock": "Bank of Baroda",
+  "ticker": "BANKBARODA",
+  "approach": "v5_transformer_finbert",
+  "n_features": 39,
+  "finbert_features": [
+    "sentiment_score",
+    "news_volume",
+    "sentiment_polarity",
+    "earnings_event"
+  ],
+  "test_metrics": {
+    "Directional_Accuracy": 100.0,
+    "Average_Confidence": 89.02037048339844,
+    "High_Confidence_Count": 224,
+    "High_Confidence_Accuracy": 100.0,
+    "Directional_Accuracy_Significant": 100.0
+  },
+  "training": {
+    "epochs": 21,
+    "time_minutes": 0.7811451500000001,
+    "best_val_dir_acc": 100.0,
+    "best_val_auc": 0.0
+  }
+}

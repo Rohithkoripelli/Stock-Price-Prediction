@@ -1,0 +1,213 @@
+{
+  "training_date": "2026-01-21T16:45:02.076993",
+  "approach": "v5_transformer_finbert_all_stocks",
+  "architecture": "Transformer with FinBERT sentiment features",
+  "stocks_trained": 8,
+  "average_metrics": {
+    "Directional_Accuracy": 100.0,
+    "Average_Confidence": 58.36332845687866,
+    "High_Confidence_Accuracy": 50.0
+  },
+  "individual_results": [
+    {
+      "stock": "HDFC Bank",
+      "ticker": "HDFCBANK",
+      "approach": "v5_transformer_finbert",
+      "n_features": 39,
+      "finbert_features": [
+        "sentiment_score",
+        "news_volume",
+        "sentiment_polarity",
+        "earnings_event"
+      ],
+      "test_metrics": {
+        "Directional_Accuracy": 100.0,
+        "Average_Confidence": 68.55579376220703,
+        "High_Confidence_Count": 135,
+        "High_Confidence_Accuracy": 100.0,
+        "Directional_Accuracy_Significant": 100.0
+      },
+      "training": {
+        "epochs": 21,
+        "time_minutes": 0.7303432333333333,
+        "best_val_dir_acc": 93.24324131011963,
+        "best_val_auc": 97.20369577407837
+      }
+    },
+    {
+      "stock": "ICICI Bank",
+      "ticker": "ICICIBANK",
+      "approach": "v5_transformer_finbert",
+      "n_features": 39,
+      "finbert_features": [
+        "sentiment_score",
+        "news_volume",
+        "sentiment_polarity",
+        "earnings_event"
+      ],
+      "test_metrics": {
+        "Directional_Accuracy": 100.0,
+        "Average_Confidence": 39.36069107055664,
+        "High_Confidence_Count": 0,
+        "High_Confidence_Accuracy": 0.0,
+        "Directional_Accuracy_Significant": 100.0
+      },
+      "training": {
+        "epochs": 21,
+        "time_minutes": 0.77528325,
+        "best_val_dir_acc": 100.0,
+        "best_val_auc": 0.0
+      }
+    },
+    {
+      "stock": "Kotak Mahindra Bank",
+      "ticker": "KOTAKBANK",
+      "approach": "v5_transformer_finbert",
+      "n_features": 39,
+      "finbert_features": [
+        "sentiment_score",
+        "news_volume",
+        "sentiment_polarity",
+        "earnings_event"
+      ],
+      "test_metrics": {
+        "Directional_Accuracy": 100.0,
+        "Average_Confidence": 43.68938446044922,
+        "High_Confidence_Count": 0,
+        "High_Confidence_Accuracy": 0.0,
+        "Directional_Accuracy_Significant": 100.0
+      },
+      "training": {
+        "epochs": 22,
+        "time_minutes": 0.9069949333333334,
+        "best_val_dir_acc": 70.7207202911377,
+        "best_val_auc": 79.00271415710449
+      }
+    },
+    {
+      "stock": "Axis Bank",
+      "ticker": "AXISBANK",
+      "approach": "v5_transformer_finbert",
+      "n_features": 39,
+      "finbert_features": [
+        "sentiment_score",
+        "news_volume",
+        "sentiment_polarity",
+        "earnings_event"
+      ],
+      "test_metrics": {
+        "Directional_Accuracy": 100.0,
+        "Average_Confidence": 78.17049407958984,
+        "High_Confidence_Count": 220,
+        "High_Confidence_Accuracy": 100.0,
+        "Directional_Accuracy_Significant": 100.0
+      },
+      "training": {
+        "epochs": 21,
+        "time_minutes": 0.8336064833333333,
+        "best_val_dir_acc": 100.0,
+        "best_val_auc": 0.0
+      }
+    },
+    {
+      "stock": "State Bank of India",
+      "ticker": "SBIN",
+      "approach": "v5_transformer_finbert",
+      "n_features": 39,
+      "finbert_features": [
+        "sentiment_score",
+        "news_volume",
+        "sentiment_polarity",
+        "earnings_event"
+      ],
+      "test_metrics": {
+        "Directional_Accuracy": 100.0,
+        "Average_Confidence": 74.63709259033203,
+        "High_Confidence_Count": 168,
+        "High_Confidence_Accuracy": 100.0,
+        "Directional_Accuracy_Significant": 100.0
+      },
+      "training": {
+        "epochs": 21,
+        "time_minutes": 0.8056972166666667,
+        "best_val_dir_acc": 100.0,
+        "best_val_auc": 0.0
+      }
+    },
+    {
+      "stock": "Punjab National Bank",
+      "ticker": "PNB",
+      "approach": "v5_transformer_finbert",
+      "n_features": 39,
+      "finbert_features": [
+        "sentiment_score",
+        "news_volume",
+        "sentiment_polarity",
+        "earnings_event"
+      ],
+      "test_metrics": {
+        "Directional_Accuracy": 100.0,
+        "Average_Confidence": 44.120418548583984,
+        "High_Confidence_Count": 0,
+        "High_Confidence_Accuracy": 0.0,
+        "Directional_Accuracy_Significant": 100.0
+      },
+      "training": {
+        "epochs": 21,
+        "time_minutes": 0.8105834166666667,
+        "best_val_dir_acc": 100.0,
+        "best_val_auc": 0.0
+      }
+    },
+    {
+      "stock": "Bank of Baroda",
+      "ticker": "BANKBARODA",
+      "approach": "v5_transformer_finbert",
+      "n_features": 39,
+      "finbert_features": [
+        "sentiment_score",
+        "news_volume",
+        "sentiment_polarity",
+        "earnings_event"
+      ],
+      "test_metrics": {
+        "Directional_Accuracy": 100.0,
+        "Average_Confidence": 89.02037048339844,
+        "High_Confidence_Count": 224,
+        "High_Confidence_Accuracy": 100.0,
+        "Directional_Accuracy_Significant": 100.0
+      },
+      "training": {
+        "epochs": 21,
+        "time_minutes": 0.7811451500000001,
+        "best_val_dir_acc": 100.0,
+        "best_val_auc": 0.0
+      }
+    },
+    {
+      "stock": "Canara Bank",
+      "ticker": "CANBK",
+      "approach": "v5_transformer_finbert",
+      "n_features": 39,
+      "finbert_features": [
+        "sentiment_score",
+        "news_volume",
+        "sentiment_polarity",
+        "earnings_event"
+      ],
+      "test_metrics": {
+        "Directional_Accuracy": 100.0,
+        "Average_Confidence": 29.35238265991211,
+        "High_Confidence_Count": 0,
+        "High_Confidence_Accuracy": 0.0,
+        "Directional_Accuracy_Significant": 100.0
+      },
+      "training": {
+        "epochs": 21,
+        "time_minutes": 0.7865194833333333,
+        "best_val_dir_acc": 100.0,
+        "best_val_auc": 0.0
+      }
+    }
+  ]
+}

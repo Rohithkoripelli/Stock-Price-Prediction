@@ -1,0 +1,25 @@
+{
+  "stock": "Axis Bank",
+  "ticker": "AXISBANK",
+  "approach": "v5_transformer_finbert",
+  "n_features": 39,
+  "finbert_features": [
+    "sentiment_score",
+    "news_volume",
+    "sentiment_polarity",
+    "earnings_event"
+  ],
+  "test_metrics": {
+    "Directional_Accuracy": 100.0,
+    "Average_Confidence": 78.17049407958984,
+    "High_Confidence_Count": 220,
+    "High_Confidence_Accuracy": 100.0,
+    "Directional_Accuracy_Significant": 100.0
+  },
+  "training": {
+    "epochs": 21,
+    "time_minutes": 0.8336064833333333,
+    "best_val_dir_acc": 100.0,
+    "best_val_auc": 0.0
+  }
+}

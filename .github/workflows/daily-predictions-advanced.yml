@@ -1,0 +1,120 @@
+name: Daily Stock Predictions (Advanced Signals)
+
+on:
+  # Schedule: Run daily at 10 PM IST (4:30 PM UTC)
+  schedule:
+    - cron: '30 16 * * *'  # 4:30 PM UTC = 10:00 PM IST
+
+  # Allow manual triggering
+  workflow_dispatch:
+
+permissions:
+  contents: write  # Allow workflow to push changes
+
+jobs:
+  generate-predictions:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install huggingface_hub
+
+      - name: Download Advanced models from Hugging Face
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          echo "Downloading Advanced Signals models from Hugging Face..."
+          python download_advanced_models_from_hf.py
+
+      - name: Collect stock data
+        run: |
+          echo "Collecting latest stock data..."
+          python collect_stock_data.py
+
+      - name: Calculate technical indicators
+        run: |
+          echo "Calculating technical indicators..."
+          python calculate_technical_indicators.py
+
+      - name: Collect news data
+        env:
+          GNEWS_API_KEY: ${{ secrets.GNEWS_API_KEY }}
+        run: |
+          echo "Collecting latest news for sentiment analysis..."
+          python collect_news_all_stocks.py
+
+      - name: Analyze news with FinBERT
+        run: |
+          echo "Analyzing news sentiment with FinBERT..."
+          python analyze_news_finbert_all.py
+
+      - name: Extract advanced market signals
+        run: |
+          echo "Extracting advanced trading signals from news..."
+          python analyze_news_advanced_signals.py
+
+      - name: Prepare advanced features
+        run: |
+          echo "Preparing features with advanced signals..."
+          python prepare_advanced_features.py
+
+      - name: Generate predictions
+        run: |
+          echo "Generating next-day predictions with Advanced Signals models..."
+          python generate_daily_predictions_advanced.py
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          # Add prediction files (required)
+          git add future_predictions_next_day.json future_predictions_next_day.csv prediction_metadata.json
+          git add web/future_predictions_next_day.json
+
+          # Add fresh data files
+          git add data/stocks/ 2>/dev/null || true
+          git add data/advanced_model_ready/*.pkl 2>/dev/null || true
+          git add data/news_historical/*.csv 2>/dev/null || true
+          git add data/finbert_daily_sentiment/*.csv 2>/dev/null || true
+          git add data/advanced_signals/*.csv 2>/dev/null || true
+          git add data/collection_summary.json 2>/dev/null || true
+
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Auto-update: Advanced Signals predictions + data ($(date '+%Y-%m-%d'))"
+            git push
+          fi
+
+      - name: Trigger Vercel deployment
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          if [ -n "$VERCEL_TOKEN" ]; then
+            echo "Triggering Vercel deployment..."
+            npm install -g vercel
+            cd web
+            vercel pull --yes --token=$VERCEL_TOKEN
+            vercel deploy --prod --token=$VERCEL_TOKEN
+          else
+            echo "Vercel token not set, skipping deployment"
+            echo "Vercel will auto-deploy from GitHub push"
+          fi

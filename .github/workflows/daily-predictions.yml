@@ -1,4 +1,4 @@
-name: Daily Stock Predictions
+name: Daily Stock Predictions (FinBERT)
 
 on:
   # Schedule: Run daily at 10 PM IST (4:30 PM UTC)
@@ -33,12 +33,12 @@ jobs:
           pip install -r requirements.txt
           pip install huggingface_hub
 
-      - name: Download models from Hugging Face
+      - name: Download FinBERT models from Hugging Face
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          echo "Downloading trained models from Hugging Face..."
-          python download_models_from_hf.py
+          echo "Downloading FinBERT-enhanced models from Hugging Face..."
+          python download_finbert_models_from_hf.py
 
       - name: Collect stock data
         run: |
@@ -50,15 +50,27 @@ jobs:
           echo "Calculating technical indicators..."
           python calculate_technical_indicators.py
 
-      - name: Prepare enhanced features
+      - name: Collect news data
+        env:
+          GNEWS_API_KEY: ${{ secrets.GNEWS_API_KEY }}
         run: |
-          echo "Preparing enhanced features..."
-          python prepare_enhanced_features.py
+          echo "Collecting latest news for sentiment analysis..."
+          python collect_news_all_stocks.py
+
+      - name: Analyze news with FinBERT
+        run: |
+          echo "Analyzing news sentiment with FinBERT..."
+          python analyze_news_finbert_all.py
+
+      - name: Prepare FinBERT features
+        run: |
+          echo "Preparing features with FinBERT sentiment..."
+          python prepare_finbert_features.py
 
       - name: Generate predictions
         run: |
-          echo "Generating next-day predictions..."
-          python generate_daily_predictions.py
+          echo "Generating next-day predictions with FinBERT models..."
+          python generate_daily_predictions_finbert.py
 
       - name: Commit and push changes
         run: |
@@ -71,14 +83,16 @@ jobs:
 
           # Add fresh data files
           git add data/stocks/ 2>/dev/null || true
-          git add data/enhanced_model_ready/*.pkl 2>/dev/null || true
+          git add data/finbert_model_ready/*.pkl 2>/dev/null || true
+          git add data/news_historical/*.csv 2>/dev/null || true
+          git add data/finbert_daily_sentiment/*.csv 2>/dev/null || true
           git add data/collection_summary.json 2>/dev/null || true
 
           # Check if there are changes to commit
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Auto-update: predictions + data ($(date '+%Y-%m-%d'))"
+            git commit -m "Auto-update: FinBERT predictions + data ($(date '+%Y-%m-%d'))"
             git push
           fi
 

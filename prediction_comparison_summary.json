@@ -1,0 +1,23 @@
+{
+  "comparison_date": "2026-01-21T16:45:11.882038",
+  "stocks_compared": 8,
+  "vader_system": {
+    "average_directional_accuracy": 65.15384615384615,
+    "sentiment_method": "VADER (general-purpose)"
+  },
+  "finbert_system": {
+    "average_directional_accuracy": 100.0,
+    "average_confidence": 58.36332845687866,
+    "sentiment_method": "FinBERT (financial domain-specific)"
+  },
+  "improvements": {
+    "average_accuracy_improvement": 34.84615384615384,
+    "stocks_improved": 8,
+    "stocks_degraded": 0
+  },
+  "best_improvement": {
+    "stock": "State Bank of India",
+    "ticker": "SBIN",
+    "improvement_pct": 36.61538461538461
+  }
+}

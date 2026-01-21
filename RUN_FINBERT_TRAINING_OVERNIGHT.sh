@@ -45,7 +45,7 @@ echo ""
 
 # Step 2: Integrate FinBERT with technical indicators
 echo "Step 2: Integrating FinBERT features with technical indicators..."
-python prepare_enhanced_features.py
+python prepare_finbert_features.py
 echo "  ✓ Feature integration complete"
 echo ""
 

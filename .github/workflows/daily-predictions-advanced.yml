@@ -50,6 +50,11 @@ jobs:
           echo "Calculating technical indicators..."
           python calculate_technical_indicators.py
 
+      - name: Collect Nifty Bank index
+        run: |
+          echo "Collecting Nifty Bank index data..."
+          python collect_nifty_index.py
+
       - name: Collect news data
         env:
           GNEWS_API_KEY: ${{ secrets.GNEWS_API_KEY }}
@@ -88,6 +93,7 @@ jobs:
 
           # Add fresh data files
           git add data/stocks/ 2>/dev/null || true
+          git add data/market_index/*.csv 2>/dev/null || true
           git add data/advanced_model_ready/*.pkl 2>/dev/null || true
           git add data/news_historical/*.csv 2>/dev/null || true
           git add data/finbert_daily_sentiment/*.csv 2>/dev/null || true

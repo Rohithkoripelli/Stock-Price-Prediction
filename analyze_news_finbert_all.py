@@ -51,11 +51,24 @@ for ticker in STOCKS:
 
         sentiment = finbert(text)[0]
 
+        # Convert label to directional score (-1 to +1)
+        # Weight by confidence to preserve signal strength
+        label = sentiment['label']
+        confidence = sentiment['score']
+
+        if label == 'Positive':
+            sentiment_score = confidence  # 0 to +1
+        elif label == 'Negative':
+            sentiment_score = -confidence  # 0 to -1
+        else:  # Neutral
+            sentiment_score = 0.0
+
         results.append({
             'date': row['date'],
             'title': row['title'],
-            'sentiment_label': sentiment['label'],
-            'sentiment_score': sentiment['score']
+            'sentiment_label': label,
+            'sentiment_score': sentiment_score,
+            'confidence': confidence
         })
 
         if (idx + 1) % 20 == 0:

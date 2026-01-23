@@ -105,6 +105,11 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "Auto-update: Advanced Signals predictions + data ($(date '+%Y-%m-%d'))"
+
+            # Pull latest changes and rebase our commit on top
+            git pull --rebase origin main || echo "No conflicts to resolve"
+
+            # Push changes
             git push
           fi
 

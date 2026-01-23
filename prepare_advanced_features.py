@@ -1,6 +1,13 @@
 """
-Prepare Features with Advanced Signals
-Integrates: Technical Indicators (35) + FinBERT (4) + Advanced Signals (11) = 50 features
+Prepare Features with Advanced Signals + ULTRA High Nifty Bank Index Weight
+Integrates:
+- Technical Indicators: 35
+- FinBERT: 4
+- Advanced Signals: 12
+- Nifty Bank Index: 3
+- Nifty Bank Duplicates (20x weight): 57
+- Sentiment Duplicates (3x weight): 32
+Total: 143 features (Nifty Bank weighted 20x for EXTREMELY strong market correlation)
 """
 
 import pandas as pd
@@ -13,11 +20,11 @@ import warnings
 warnings.filterwarnings('ignore')
 
 print("=" * 80)
-print("ADVANCED FEATURE PREPARATION (50 Features)".center(80))
+print("ADVANCED FEATURE PREPARATION (Nifty Bank Weighted 20x)".center(80))
 print("=" * 80)
 
 # Configuration
-LOOKBACK_WINDOW = 60
+LOOKBACK_WINDOW = 30  # Reduced from 60 to 30 for more responsiveness to recent trends
 TRAIN_SPLIT = 0.70
 VAL_SPLIT = 0.15
 TEST_SPLIT = 0.15
@@ -86,6 +93,51 @@ def load_advanced_signals(ticker):
         print(f"      ✗ Error loading advanced signals: {e}")
         return None
 
+def load_nifty_index():
+    """Load Nifty Bank Index for market context (3 features: returns_1d, returns_5d, returns_20d)"""
+    file_path = "data/market_index/NIFTY_BANK_index.csv"
+
+    if not os.path.exists(file_path):
+        print(f"      ⚠ No Nifty index found")
+        return None
+
+    try:
+        df = pd.read_csv(file_path, skiprows=[1,2], index_col=0, parse_dates=True)
+        df = df.sort_index()
+
+        # Calculate returns at different time horizons
+        nifty_features = pd.DataFrame(index=df.index)
+        nifty_features['nifty_bank_return_1d'] = df['Close'].pct_change(1)
+        nifty_features['nifty_bank_return_5d'] = df['Close'].pct_change(5)
+        nifty_features['nifty_bank_return_20d'] = df['Close'].pct_change(20)
+
+        return nifty_features
+    except Exception as e:
+        print(f"      ✗ Error loading Nifty data: {e}")
+        return None
+
+def load_bankex_index():
+    """Load BSE Bankex Index for market context (3 features: returns_1d, returns_5d, returns_20d)"""
+    file_path = "data/market_index/BSE_BANKEX_index.csv"
+
+    if not os.path.exists(file_path):
+        return None
+
+    try:
+        df = pd.read_csv(file_path, skiprows=[1,2], index_col=0, parse_dates=True)
+        df = df.sort_index()
+
+        # Calculate returns at different time horizons
+        bankex_features = pd.DataFrame(index=df.index)
+        bankex_features['bankex_return_1d'] = df['Close'].pct_change(1)
+        bankex_features['bankex_return_5d'] = df['Close'].pct_change(5)
+        bankex_features['bankex_return_20d'] = df['Close'].pct_change(20)
+
+        return bankex_features
+    except Exception as e:
+        print(f"      ✗ Error loading Bankex data: {e}")
+        return None
+
 def create_sequences(data, lookback=60):
     """Create sequences for LSTM/Transformer"""
     X, y = [], []
@@ -130,7 +182,7 @@ def prepare_stock_data(ticker, sector):
         combined = tech_df
         print(f"    ⚠ No FinBERT features")
 
-    # Load advanced signals (11 features)
+    # Load advanced signals (12 features)
     print("  Loading advanced signals...")
     advanced_df = load_advanced_signals(ticker)
 
@@ -151,9 +203,71 @@ def prepare_stock_data(ticker, sector):
             if col in combined.columns:
                 combined[col] = combined[col].fillna(method='ffill').fillna(0)
 
-        print(f"    ✓ Total features: {len(combined.columns)}")
+        print(f"    ✓ Total features before Nifty: {len(combined.columns)}")
     else:
         print(f"    ⚠ No advanced signals, using {len(combined.columns)} features")
+
+    # Load Nifty Bank Index (3 features: market context)
+    print("  Loading Nifty Bank index...")
+    nifty_df = load_nifty_index()
+
+    if nifty_df is not None:
+        print(f"    ✓ Loaded {len(nifty_df)} days of Nifty data")
+        combined = combined.join(nifty_df, how='left')
+
+        # Forward fill Nifty features
+        for col in nifty_df.columns:
+            if col in combined.columns:
+                combined[col] = combined[col].fillna(method='ffill').fillna(0)
+
+        print(f"    ✓ Total features after Nifty: {len(combined.columns)}")
+    else:
+        print(f"    ⚠ No Nifty index data")
+
+    # ULTRA HIGH INCREASE NIFTY BANK WEIGHT: Duplicate Nifty Bank features 20x
+    # This gives Nifty Bank 20x weight to EXTREMELY strongly follow market direction
+    print("  Ultra-highly increasing Nifty Bank index weight (20x)...")
+    index_feature_cols = []
+
+    # Nifty Bank features (3)
+    nifty_cols = ['nifty_bank_return_1d', 'nifty_bank_return_5d', 'nifty_bank_return_20d']
+    index_feature_cols.extend([col for col in nifty_cols if col in combined.columns])
+
+    # Duplicate index features 19 more times (total 20x weight)
+    for i in range(19):
+        for col in index_feature_cols:
+            combined[f'{col}_dup{i+1}'] = combined[col]
+
+    print(f"    ✓ Duplicated {len(index_feature_cols)} Nifty Bank features 19x (20x total weight)")
+    print(f"    ✓ Features after index duplication: {len(combined.columns)}")
+
+    # INCREASE SENTIMENT WEIGHT: Duplicate sentiment features (16 total) 2x more
+    # This gives sentiment 3x weight vs technical indicators
+    print("  Increasing sentiment feature weight (3x)...")
+    sentiment_feature_cols = []
+
+    # FinBERT features (4)
+    finbert_cols = ['sentiment_score', 'news_volume', 'sentiment_polarity', 'earnings_event']
+    sentiment_feature_cols.extend([col for col in finbert_cols if col in combined.columns])
+
+    # Advanced signal features (12)
+    advanced_signal_cols = [
+        'technical_signal_score', 'technical_bullish_mentions', 'technical_bearish_mentions',
+        'analyst_rating_score', 'analyst_rating_present',
+        'macro_signal_score', 'macro_mentions',
+        'risk_score', 'high_risk_mentions',
+        'leadership_signal_score',
+        'earnings_signal_score', 'earnings_event_present'
+    ]
+    sentiment_feature_cols.extend([col for col in advanced_signal_cols if col in combined.columns])
+
+    # Duplicate sentiment features 2 more times (total 3x weight)
+    for i in range(2):
+        for col in sentiment_feature_cols:
+            combined[f'{col}_dup{i+1}'] = combined[col]
+
+    print(f"    ✓ Duplicated {len(sentiment_feature_cols)} sentiment features 2x (3x total weight)")
+    print(f"    ✓ Final total features: {len(combined.columns)}")
 
     # Drop rows with NaN
     initial_len = len(combined)
@@ -253,8 +367,12 @@ if __name__ == "__main__":
         print(f"✓ Feature Breakdown:")
         print(f"    - Technical Indicators: 35")
         print(f"    - FinBERT Sentiment: 4")
-        print(f"    - Advanced Signals: 11")
-        print(f"    - Total: {all_results[0]['num_features']}")
+        print(f"    - Advanced Signals: 12")
+        print(f"    - Nifty Bank Index: 3")
+        print(f"    - Nifty Bank Duplicates (20x weight): 57")
+        print(f"    - Sentiment Duplicates (3x weight): 32")
+        print(f"    - Total: {all_results[0]['num_features']} (Nifty Bank 20x, sentiment 3x weighted)")
+        print(f"✓ Lookback window: {LOOKBACK_WINDOW} days (reduced for responsiveness)")
         print(f"✓ Total sequences: {sum(r['num_sequences'] for r in all_results)}")
 
         # Save summary

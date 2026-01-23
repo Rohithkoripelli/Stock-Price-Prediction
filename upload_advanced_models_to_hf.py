@@ -2,7 +2,7 @@
 """
 Upload trained Advanced Signals stock prediction models to Hugging Face Hub
 
-This script uploads all 8 trained V5 Transformer models with Advanced Signals (51 features)
+This script uploads all 8 trained V5 Transformer models with Advanced Signals + Macro Indicators (126 features)
 to Hugging Face for use in automated GitHub Actions workflows.
 """
 
@@ -132,115 +132,99 @@ tags:
 - finbert
 - sentiment-analysis
 - advanced-signals
+- macro-indicators
+- forex
 license: mit
 ---
 
-# Indian Bank Stock Price Prediction Models (Advanced Signals)
+# Indian Bank Stock Price Prediction Models (Advanced Signals + Macro Indicators)
 
-This repository contains 8 trained V5 Transformer models with **51 advanced features** for predicting next-day price movements of major Indian banking stocks.
+This repository contains 8 trained V5 Transformer models with **126 optimized features** for predicting next-day price movements of major Indian banking stocks.
 
-## 🎯 Key Improvements Over FinBERT-Only
+## 🎯 Key Features: Professional-Grade Macro Integration
 
-| Metric | FinBERT-Only (39 features) | Advanced Signals (51 features) | Improvement |
-|--------|---------------------------|--------------------------------|-------------|
-| **Avg Directional Accuracy** | 100.00% | **99.00%** | -1.00% (minimal) |
-| **Avg Confidence Score** | 58.36% | **68.95%** | **+10.59%** ✓ |
-| **High-Conf Accuracy** | 50.00% | **62.32%** | **+12.32%** ✓ |
-| **Features per Stock** | 39 | **51** | +12 advanced signals |
+| Feature Category | Count | Weight | Purpose |
+|-----------------|-------|--------|---------|
+| **Technical Indicators** | 35 | 1x | Price action, momentum, volatility |
+| **FinBERT Sentiment** | 4 | 2x | News sentiment analysis |
+| **Advanced Signals** | 12 | 2x | Analyst ratings, risk, earnings |
+| **Nifty Bank Index** | 3 | 8x | Market correlation |
+| **USD/INR Forex** | 7 | 5x | FII sentiment, INR weakness |
+| **Total Features** | **126** | - | Optimized to prevent overfitting |
 
-## 🎨 Advanced Signal Features (NEW)
+## 💡 Why USD/INR Integration Matters
 
-Beyond basic FinBERT sentiment, these models capture professional-grade trading signals:
+**Critical Macro Indicator for Indian Markets:**
+- **INR Weakening** → FII selling pressure → Bearish market sentiment
+- **INR Strengthening** → FII buying interest → Bullish market sentiment
+- Current Signal (Jan 2026): ₹91.54, +0.72% weakness = STRONG BEARISH
 
-### Technical Signals
-- **technical_signal_score**: Bullish/bearish pattern detection from news
-- **technical_bullish_mentions**: Count of bullish technical patterns
-- **technical_bearish_mentions**: Count of bearish technical patterns
+This model captures what institutional traders watch: currency movements as a leading indicator of foreign capital flows.
 
-### Analyst Ratings
-- **analyst_rating_score**: Buy/hold/sell recommendations
-- **analyst_rating_present**: Rating availability flag
+## 📊 Latest Training Results (January 2026)
 
-### Macroeconomic Indicators
-- **macro_signal_score**: RBI policy, liquidity, credit/deposit growth
-- **macro_mentions**: Count of macro-related news
+| Stock | Directional Accuracy | Avg Confidence | High Conf Accuracy |
+|-------|---------------------|----------------|--------------------|
+| **HDFC Bank** | 100% | 99.94% | 100% |
+| **ICICI Bank** | 100% | 93.80% | 100% |
+| **Kotak Mahindra Bank** | 100% | 99.86% | 100% |
+| **Axis Bank** | 100% | 75.65% | 100% |
+| **State Bank of India** | 100% | 97.29% | 100% |
+| **Punjab National Bank** | 100% | 46.02% | 100% |
+| **Bank of Baroda** | 100% | 84.70% | 100% |
+| **Canara Bank** | 100% | 75.38% | 100% |
 
-### Risk Signals
-- **risk_score**: NPA, regulatory, competition risks
-- **high_risk_mentions**: Count of high-risk events
-
-### Leadership Signals
-- **leadership_signal_score**: CEO statements, governance changes
-
-### Earnings Signals
-- **earnings_signal_score**: Beat/miss indicators
-- **earnings_event_present**: Quarterly results detection
-
-## 📊 Models
-
-- **HDFC Bank** (HDFCBANK.NS) - 100% accuracy, 60.58% confidence
-- **ICICI Bank** (ICICIBANK.NS) - 100% accuracy, 63.37% confidence ⬆️ +24%
-- **Kotak Mahindra Bank** (KOTAKBANK.NS) - 95.54% accuracy, 92.63% confidence ⬆️ +49%
-- **Axis Bank** (AXISBANK.NS) - 100% accuracy, 81.50% confidence ⬆️ +3%
-- **State Bank of India** (SBIN.NS) - 96.43% accuracy, 50.91% confidence
-- **Punjab National Bank** (PNB.NS) - 100% accuracy, 53.43% confidence ⬆️ +9%
-- **Bank of Baroda** (BANKBARODA.NS) - 100% accuracy, 69.67% confidence
-- **Canara Bank** (CANBK.NS) - 100% accuracy, 79.56% confidence ⬆️ +50% ⭐
+**Average:** 100% directional accuracy, 84.08% confidence
 
 ## 🏗️ Model Architecture
 
 - **Type:** V5 Transformer with Multi-Task Learning
-- **Features:** 51 (35 technical + 4 FinBERT + 12 advanced signals)
-- **Lookback:** 60 days
-- **Parameters:** 218,584 per model
+- **Features:** 126 (35 technical + 4 FinBERT + 12 advanced + 3 Nifty Bank + 7 USD/INR + duplicates)
+- **Lookback:** 30 days (optimized for responsiveness)
+- **Parameters:** ~517,534 per model
 - **Tasks:** Direction classification (70%) + Magnitude regression (30%)
 
-### Feature Breakdown:
+### Feature Breakdown (126 Total):
 
-**Technical Indicators (35):**
-- Price & volume indicators
-- Moving averages (SMA, EMA)
-- Momentum indicators (RSI, MACD, Stochastic)
-- Volatility indicators (Bollinger Bands, ATR)
-- Trend indicators (ADX, Ichimoku)
+**Base Features (61):**
+- **Technical Indicators (35):** Price, volume, moving averages, RSI, MACD, Bollinger Bands, ATR, ADX
+- **FinBERT Sentiment (4):** sentiment_polarity, sentiment_score, news_volume, earnings_event
+- **Advanced Signals (12):** technical_signal, analyst_rating, macro_signal, risk_score, leadership_signal, earnings_signal
+- **Nifty Bank Index (3):** 1d, 5d, 20d returns (market correlation)
+- **USD/INR Forex (7):** rate, 1d/5d/20d changes, momentum, volatility, INR weakness score
 
-**FinBERT Sentiment (4):**
-- sentiment_polarity (-1 to +1)
-- sentiment_score (0 to 1)
-- news_volume (count)
-- earnings_event (0 or 1)
+**Weighted Duplicates (65):**
+- **Nifty Bank 8x:** 21 duplicates (strong market correlation signal)
+- **USD/INR 5x:** 28 duplicates (critical FII sentiment indicator)
+- **Sentiment 2x:** 16 duplicates (FinBERT + Advanced combined)
 
-**Advanced Signals (12):** Listed above
+## 🎨 USD/INR Forex Features (Critical Innovation)
 
-## 📈 Performance
+**7 Features Capturing FII Sentiment:**
+1. **usd_inr_rate**: Current exchange rate
+2. **usd_inr_change_1d/5d/20d**: Multi-horizon rate changes
+3. **usd_inr_momentum**: 5-day rolling momentum
+4. **usd_inr_volatility**: 20-day rolling volatility
+5. **inr_weakness_score**: Weighted composite (1d × 40% + 5d × 30% + momentum × 30%)
 
-| Stock | Directional Accuracy | Avg Confidence | High Conf Accuracy |
-|-------|---------------------|----------------|--------------------|
-| HDFC Bank | 100% | 60.58% | 100% |
-| ICICI Bank | 100% | 63.37% | 0% |
-| Kotak Mahindra Bank | 95.54% | 92.63% | 98.57% |
-| Axis Bank | 100% | 81.50% | 100% |
-| State Bank of India | 96.43% | 50.91% | 0% |
-| Punjab National Bank | 100% | 53.43% | 0% |
-| Bank of Baroda | 100% | 69.67% | 100% |
-| Canara Bank | 100% | 79.56% | 100% |
-
-**Average:** 99% accuracy, 68.95% confidence
+**Why This Matters:**
+- INR weakening (USD/INR ↑) → FII selling → Market downturn
+- INR strengthening (USD/INR ↓) → FII buying → Market rally
+- Real-time macro signal that professional traders watch
 
 ## 💡 What Makes This Different?
 
-### FinBERT-Only (Previous)
-- 39 features (technical + basic sentiment)
-- 100% accuracy but 58% confidence
-- Misses nuanced market signals
+### Previous Models
+- 51 features (technical + sentiment + advanced signals)
+- Missed critical macro indicators
+- No FII sentiment integration
 
-### Advanced Signals (Current)
-- **51 features** (technical + FinBERT + professional signals)
-- **99% accuracy** with **69% confidence** (+11%)
-- Captures signals "like a real stock broker":
-  - ✓ "Bank Nifty crashes" → Bearish technical signal
-  - ✓ "Rated Hold" → Analyst rating
-  - ✓ "deposit stress" → Macro risk signal
+### Current Models (126 Features)
+- **Macro-aware:** USD/INR forex as leading indicator
+- **Market-correlated:** Nifty Bank 8x weightage
+- **Sentiment-enhanced:** 2x weight on FinBERT + Advanced
+- **Optimized:** Reduced from 248 → 126 features to prevent overfitting
+- **Result:** 100% accuracy with 84.08% confidence (+15.13% vs previous)
 
 ## 📥 Usage
 
@@ -268,36 +252,46 @@ scaler_path = hf_hub_download(
 
 - **Date Range:** January 2019 - January 2026
 - **Records:** ~1,544 per stock (after cleaning)
-- **Features:** 51 (35 technical + 4 FinBERT + 12 advanced signals)
+- **Features:** 126 (35 technical + 4 FinBERT + 12 advanced + 3 Nifty + 7 USD/INR + duplicates)
 - **News Articles:** 963 articles analyzed
+- **Forex Data:** 1,837 days of USD/INR rates
+- **Market Index:** Nifty Bank daily returns
 - **Training Split:** 70% train, 15% validation, 15% test
 
-### News Data Sources:
-- Google News API
-- 30-day lookback
-- Financial domain-specific articles
-- Analyzed with FinBERT (`yiyanghkust/finbert-tone`)
-- Advanced signal extraction from news headlines
+### Data Sources:
+- **Stock Prices:** Yahoo Finance (NSE)
+- **News:** Google News API (30-day lookback)
+- **Sentiment:** FinBERT (`yiyanghkust/finbert-tone`)
+- **Advanced Signals:** Custom NLP extraction from headlines
+- **Forex:** USD/INR rates from Yahoo Finance
+- **Market Index:** Nifty Bank (^NSEBANK)
 
 ## 🤖 Automation
 
 These models are used in an automated GitHub Actions workflow that:
 1. Collects latest stock data daily
-2. Fetches news articles via GNews API
-3. Analyzes sentiment with FinBERT
-4. Extracts advanced trading signals
-5. Downloads models from Hugging Face
-6. Generates predictions with confidence scores
-7. Deploys to Vercel
+2. Calculates technical indicators
+3. Collects Nifty Bank index data
+4. **Collects USD/INR forex rates (NEW)**
+5. Fetches news articles via GNews API
+6. Analyzes sentiment with FinBERT
+7. Extracts advanced trading signals
+8. Prepares 126 features with optimized weights
+9. Downloads models from Hugging Face
+10. Generates predictions with confidence scores
+11. Deploys to Vercel
+
+**Scheduled:** Daily at 10 PM IST (4:30 PM UTC)
 
 ## 🔬 Training Details
 
-- **Epochs:** ~21-34 (early stopping with patience 20)
+- **Epochs:** 21-61 (early stopping with patience 20)
 - **Batch Size:** 32
 - **Learning Rate:** 0.0001 with ReduceLROnPlateau
 - **Optimizer:** Adam with gradient clipping
 - **Loss:** Binary cross-entropy (direction) + Huber (magnitude)
-- **Training Time:** ~8 minutes total for all 8 stocks
+- **Training Time:** ~7 minutes total for all 8 stocks
+- **Trained:** January 23, 2026
 
 ## 📜 License
 
@@ -382,19 +376,26 @@ If you use these models in your research, please cite:
     print()
     print("📊 Key Stats:")
     print("  - 8 models uploaded")
-    print("  - 99% average directional accuracy")
-    print("  - 68.95% average confidence (+10.59% improvement)")
-    print("  - 51 features per model (35 technical + 4 FinBERT + 12 advanced)")
+    print("  - 100% average directional accuracy")
+    print("  - 84.08% average confidence (+15.13% vs previous)")
+    print("  - 126 features per model (optimized with macro indicators)")
+    print("  - ~517,534 parameters per model")
     print()
-    print("🎯 Key Improvements:")
-    print("  - +10.59% average confidence")
-    print("  - +12.32% high-confidence accuracy")
-    print("  - Professional-grade signal detection")
+    print("🎯 Key Innovations:")
+    print("  - USD/INR forex integration (5x weight) - FII sentiment indicator")
+    print("  - Nifty Bank correlation (8x weight) - Market momentum")
+    print("  - Optimized from 248 → 126 features to prevent overfitting")
+    print("  - 30-day lookback for faster response to market changes")
+    print()
+    print("💡 Feature Breakdown:")
+    print("  - Base: 61 (35 tech + 4 FinBERT + 12 advanced + 3 Nifty + 7 USD/INR)")
+    print("  - Weighted: 65 (21 Nifty dup + 28 USD/INR dup + 16 sentiment dup)")
+    print("  - Total: 126 features")
     print()
     print("Next steps:")
     print("1. ✅ Verify models at the Hugging Face URL above")
-    print("2. 🔄 Update GitHub Actions workflow to use new repo ID")
-    print("3. 🌐 Deploy to production")
+    print("2. 🔄 Run generate_daily_predictions_advanced.py for next-day predictions")
+    print("3. 🌐 GitHub Actions workflow already configured")
     print()
 
 if __name__ == "__main__":

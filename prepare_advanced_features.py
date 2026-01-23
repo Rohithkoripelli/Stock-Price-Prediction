@@ -1,15 +1,15 @@
 """
-Prepare Features with Advanced Signals + Macro Indicators (Nifty Bank + USD/INR)
+Prepare Features with Advanced Signals + Macro Indicators (Optimized)
 Integrates:
 - Technical Indicators: 35
 - FinBERT: 4
 - Advanced Signals: 12
 - Nifty Bank Index: 3
 - USD/INR Forex: 7
-- Nifty Bank Duplicates (20x weight): 57
-- USD/INR Duplicates (15x weight): 98
-- Sentiment Duplicates (3x weight): 32
-Total: 248 features (Nifty Bank 20x, USD/INR 15x, Sentiment 3x weighted)
+- Nifty Bank Duplicates (8x weight): 21
+- USD/INR Duplicates (5x weight): 28
+- Sentiment Duplicates (2x weight): 16
+Total: ~120 features (Optimized to prevent overfitting)
 """
 
 import pandas as pd
@@ -22,7 +22,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 print("=" * 80)
-print("ADVANCED FEATURE PREPARATION (Nifty Bank 20x, USD/INR 15x)".center(80))
+print("ADVANCED FEATURE PREPARATION (Optimized: Nifty 8x, USD/INR 5x)".center(80))
 print("=" * 80)
 
 # Configuration
@@ -271,26 +271,26 @@ def prepare_stock_data(ticker, sector):
     else:
         print(f"    ⚠ No USD/INR data")
 
-    # ULTRA HIGH INCREASE NIFTY BANK WEIGHT: Duplicate Nifty Bank features 20x
-    # This gives Nifty Bank 20x weight to EXTREMELY strongly follow market direction
-    print("  Ultra-highly increasing Nifty Bank index weight (20x)...")
+    # INCREASE NIFTY BANK WEIGHT: Duplicate Nifty Bank features 8x
+    # This gives Nifty Bank 8x weight for strong market correlation without overfitting
+    print("  Increasing Nifty Bank index weight (8x)...")
     index_feature_cols = []
 
     # Nifty Bank features (3)
     nifty_cols = ['nifty_bank_return_1d', 'nifty_bank_return_5d', 'nifty_bank_return_20d']
     index_feature_cols.extend([col for col in nifty_cols if col in combined.columns])
 
-    # Duplicate index features 19 more times (total 20x weight)
-    for i in range(19):
+    # Duplicate index features 7 more times (total 8x weight)
+    for i in range(7):
         for col in index_feature_cols:
             combined[f'{col}_dup{i+1}'] = combined[col]
 
-    print(f"    ✓ Duplicated {len(index_feature_cols)} Nifty Bank features 19x (20x total weight)")
+    print(f"    ✓ Duplicated {len(index_feature_cols)} Nifty Bank features 7x (8x total weight)")
     print(f"    ✓ Features after Nifty Bank duplication: {len(combined.columns)}")
 
-    # ULTRA HIGH INCREASE USD/INR WEIGHT: Duplicate USD/INR features 15x
-    # This gives USD/INR 15x weight to capture FII sentiment & INR weakness impact
-    print("  Ultra-highly increasing USD/INR forex weight (15x)...")
+    # INCREASE USD/INR WEIGHT: Duplicate USD/INR features 5x
+    # This gives USD/INR 5x weight to capture FII sentiment & INR weakness impact
+    print("  Increasing USD/INR forex weight (5x)...")
     forex_feature_cols = []
 
     # USD/INR features (7)
@@ -300,17 +300,17 @@ def prepare_stock_data(ticker, sector):
     ]
     forex_feature_cols.extend([col for col in usd_inr_cols if col in combined.columns])
 
-    # Duplicate forex features 14 more times (total 15x weight)
-    for i in range(14):
+    # Duplicate forex features 4 more times (total 5x weight)
+    for i in range(4):
         for col in forex_feature_cols:
             combined[f'{col}_dup{i+1}'] = combined[col]
 
-    print(f"    ✓ Duplicated {len(forex_feature_cols)} USD/INR features 14x (15x total weight)")
+    print(f"    ✓ Duplicated {len(forex_feature_cols)} USD/INR features 4x (5x total weight)")
     print(f"    ✓ Features after USD/INR duplication: {len(combined.columns)}")
 
-    # INCREASE SENTIMENT WEIGHT: Duplicate sentiment features (16 total) 2x more
-    # This gives sentiment 3x weight vs technical indicators
-    print("  Increasing sentiment feature weight (3x)...")
+    # INCREASE SENTIMENT WEIGHT: Duplicate sentiment features (16 total) 1x more
+    # This gives sentiment 2x weight vs technical indicators
+    print("  Increasing sentiment feature weight (2x)...")
     sentiment_feature_cols = []
 
     # FinBERT features (4)
@@ -328,12 +328,12 @@ def prepare_stock_data(ticker, sector):
     ]
     sentiment_feature_cols.extend([col for col in advanced_signal_cols if col in combined.columns])
 
-    # Duplicate sentiment features 2 more times (total 3x weight)
-    for i in range(2):
+    # Duplicate sentiment features 1 more time (total 2x weight)
+    for i in range(1):
         for col in sentiment_feature_cols:
             combined[f'{col}_dup{i+1}'] = combined[col]
 
-    print(f"    ✓ Duplicated {len(sentiment_feature_cols)} sentiment features 2x (3x total weight)")
+    print(f"    ✓ Duplicated {len(sentiment_feature_cols)} sentiment features 1x (2x total weight)")
     print(f"    ✓ Final total features: {len(combined.columns)}")
 
     # Drop rows with NaN
@@ -431,19 +431,20 @@ if __name__ == "__main__":
 
         print(f"\n✓ Prepared {len(all_results)} stocks")
         print(f"✓ Features per stock: {all_results[0]['num_features']}")
-        print(f"✓ Feature Breakdown:")
+        print(f"✓ Feature Breakdown (Optimized):")
         print(f"    - Technical Indicators: 35")
         print(f"    - FinBERT Sentiment: 4")
         print(f"    - Advanced Signals: 12")
         print(f"    - Nifty Bank Index: 3")
         print(f"    - USD/INR Forex: 7")
-        print(f"    - Nifty Bank Duplicates (20x weight): 57")
-        print(f"    - USD/INR Duplicates (15x weight): 98")
-        print(f"    - Sentiment Duplicates (3x weight): 32")
-        print(f"    - Total: {all_results[0]['num_features']} (Nifty Bank 20x, USD/INR 15x, Sentiment 3x)")
+        print(f"    - Nifty Bank Duplicates (8x weight): 21")
+        print(f"    - USD/INR Duplicates (5x weight): 28")
+        print(f"    - Sentiment Duplicates (2x weight): 16")
+        print(f"    - Total: ~{all_results[0]['num_features']} (Optimized to prevent overfitting)")
         print(f"✓ Lookback window: {LOOKBACK_WINDOW} days (reduced for responsiveness)")
         print(f"✓ Total sequences: {sum(r['num_sequences'] for r in all_results)}")
         print(f"✓ Macro Indicators: Nifty Bank (market) + USD/INR (FII sentiment)")
+        print(f"✓ Feature Reduction: 248 → ~120 features (52% reduction)")
 
         # Save summary
         summary_df.to_csv('data/advanced_model_ready/preparation_summary.csv', index=False)

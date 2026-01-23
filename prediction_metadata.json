@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-01-23T11:41:29.714679",
+  "generated_at": "2026-01-23T16:51:56.031855",
   "model_type": "V5_Transformer_Advanced Signals",
   "features_per_stock": 51,
   "total_stocks": 8,
-  "avg_confidence": 78.80598020553589,
-  "high_confidence_count": 4
+  "avg_confidence": 87.62064743041992,
+  "high_confidence_count": 7
 }

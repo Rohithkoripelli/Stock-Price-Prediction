@@ -1,13 +1,15 @@
 """
-Prepare Features with Advanced Signals + ULTRA High Nifty Bank Index Weight
+Prepare Features with Advanced Signals + Macro Indicators (Nifty Bank + USD/INR)
 Integrates:
 - Technical Indicators: 35
 - FinBERT: 4
 - Advanced Signals: 12
 - Nifty Bank Index: 3
+- USD/INR Forex: 7
 - Nifty Bank Duplicates (20x weight): 57
+- USD/INR Duplicates (15x weight): 98
 - Sentiment Duplicates (3x weight): 32
-Total: 143 features (Nifty Bank weighted 20x for EXTREMELY strong market correlation)
+Total: 248 features (Nifty Bank 20x, USD/INR 15x, Sentiment 3x weighted)
 """
 
 import pandas as pd
@@ -20,7 +22,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 print("=" * 80)
-print("ADVANCED FEATURE PREPARATION (Nifty Bank Weighted 20x)".center(80))
+print("ADVANCED FEATURE PREPARATION (Nifty Bank 20x, USD/INR 15x)".center(80))
 print("=" * 80)
 
 # Configuration
@@ -138,6 +140,24 @@ def load_bankex_index():
         print(f"      ✗ Error loading Bankex data: {e}")
         return None
 
+def load_usd_inr_rate():
+    """Load USD/INR exchange rate for FII sentiment (7 features: critical macro indicator)"""
+    file_path = "data/forex/USD_INR_rates.csv"
+
+    if not os.path.exists(file_path):
+        print(f"      ⚠ No USD/INR data found")
+        return None
+
+    try:
+        df = pd.read_csv(file_path, index_col=0, parse_dates=True)
+        df = df.sort_index()
+
+        # All 7 forex features (already calculated in collect_usd_inr_rate.py)
+        return df
+    except Exception as e:
+        print(f"      ✗ Error loading USD/INR data: {e}")
+        return None
+
 def create_sequences(data, lookback=60):
     """Create sequences for LSTM/Transformer"""
     X, y = [], []
@@ -224,6 +244,33 @@ def prepare_stock_data(ticker, sector):
     else:
         print(f"    ⚠ No Nifty index data")
 
+    # Load USD/INR Exchange Rate (7 features: FII sentiment indicator)
+    print("  Loading USD/INR exchange rate...")
+    usd_inr_df = load_usd_inr_rate()
+
+    if usd_inr_df is not None:
+        print(f"    ✓ Loaded {len(usd_inr_df)} days of USD/INR data")
+        combined = combined.join(usd_inr_df, how='left')
+
+        # Forward fill USD/INR features
+        for col in usd_inr_df.columns:
+            if col in combined.columns:
+                combined[col] = combined[col].fillna(method='ffill').fillna(0)
+
+        print(f"    ✓ Total features after USD/INR: {len(combined.columns)}")
+
+        # Show current INR weakness signal
+        if 'inr_weakness_score' in combined.columns:
+            recent_weakness = combined['inr_weakness_score'].iloc[-1] * 100
+            if recent_weakness > 0.05:
+                print(f"    🔴 Strong INR weakness detected: {recent_weakness:+.3f}% (Bearish signal)")
+            elif recent_weakness > 0:
+                print(f"    🟠 Mild INR weakness: {recent_weakness:+.3f}% (Cautious)")
+            else:
+                print(f"    🟢 INR stable/strengthening: {recent_weakness:+.3f}% (Positive)")
+    else:
+        print(f"    ⚠ No USD/INR data")
+
     # ULTRA HIGH INCREASE NIFTY BANK WEIGHT: Duplicate Nifty Bank features 20x
     # This gives Nifty Bank 20x weight to EXTREMELY strongly follow market direction
     print("  Ultra-highly increasing Nifty Bank index weight (20x)...")
@@ -239,7 +286,27 @@ def prepare_stock_data(ticker, sector):
             combined[f'{col}_dup{i+1}'] = combined[col]
 
     print(f"    ✓ Duplicated {len(index_feature_cols)} Nifty Bank features 19x (20x total weight)")
-    print(f"    ✓ Features after index duplication: {len(combined.columns)}")
+    print(f"    ✓ Features after Nifty Bank duplication: {len(combined.columns)}")
+
+    # ULTRA HIGH INCREASE USD/INR WEIGHT: Duplicate USD/INR features 15x
+    # This gives USD/INR 15x weight to capture FII sentiment & INR weakness impact
+    print("  Ultra-highly increasing USD/INR forex weight (15x)...")
+    forex_feature_cols = []
+
+    # USD/INR features (7)
+    usd_inr_cols = [
+        'usd_inr_rate', 'usd_inr_change_1d', 'usd_inr_change_5d', 'usd_inr_change_20d',
+        'usd_inr_momentum', 'usd_inr_volatility', 'inr_weakness_score'
+    ]
+    forex_feature_cols.extend([col for col in usd_inr_cols if col in combined.columns])
+
+    # Duplicate forex features 14 more times (total 15x weight)
+    for i in range(14):
+        for col in forex_feature_cols:
+            combined[f'{col}_dup{i+1}'] = combined[col]
+
+    print(f"    ✓ Duplicated {len(forex_feature_cols)} USD/INR features 14x (15x total weight)")
+    print(f"    ✓ Features after USD/INR duplication: {len(combined.columns)}")
 
     # INCREASE SENTIMENT WEIGHT: Duplicate sentiment features (16 total) 2x more
     # This gives sentiment 3x weight vs technical indicators
@@ -369,11 +436,14 @@ if __name__ == "__main__":
         print(f"    - FinBERT Sentiment: 4")
         print(f"    - Advanced Signals: 12")
         print(f"    - Nifty Bank Index: 3")
+        print(f"    - USD/INR Forex: 7")
         print(f"    - Nifty Bank Duplicates (20x weight): 57")
+        print(f"    - USD/INR Duplicates (15x weight): 98")
         print(f"    - Sentiment Duplicates (3x weight): 32")
-        print(f"    - Total: {all_results[0]['num_features']} (Nifty Bank 20x, sentiment 3x weighted)")
+        print(f"    - Total: {all_results[0]['num_features']} (Nifty Bank 20x, USD/INR 15x, Sentiment 3x)")
         print(f"✓ Lookback window: {LOOKBACK_WINDOW} days (reduced for responsiveness)")
         print(f"✓ Total sequences: {sum(r['num_sequences'] for r in all_results)}")
+        print(f"✓ Macro Indicators: Nifty Bank (market) + USD/INR (FII sentiment)")
 
         # Save summary
         summary_df.to_csv('data/advanced_model_ready/preparation_summary.csv', index=False)

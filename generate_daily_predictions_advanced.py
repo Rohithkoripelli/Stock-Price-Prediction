@@ -99,6 +99,35 @@ for ticker, stock_name, sector in STOCKS:
             predicted_pct_change = -abs(magnitude)  # Ensure negative for DOWN
             confidence = 1 - direction_prob  # Confidence in DOWN prediction
 
+        # 3b. INR WEAKNESS OVERRIDE - Dominant Bearish Signal
+        # If INR is weakening, blindly predict DOWN regardless of model output
+        try:
+            usd_inr_data = pd.read_csv('data/forex/USD_INR_rates.csv')
+            latest_inr_weakness = float(usd_inr_data['inr_weakness_score'].iloc[-1])
+            latest_usd_inr_rate = float(usd_inr_data['usd_inr_rate'].iloc[-1])
+
+            # Threshold for "significant" INR weakness
+            INR_WEAKNESS_THRESHOLD = 0.003  # 0.3% weakness or more
+
+            if latest_inr_weakness > INR_WEAKNESS_THRESHOLD:
+                print(f"\n   🔴 INR WEAKNESS OVERRIDE TRIGGERED!")
+                print(f"   USD/INR Rate: ₹{latest_usd_inr_rate:.4f}")
+                print(f"   INR Weakness Score: {latest_inr_weakness*100:.2f}% (Threshold: {INR_WEAKNESS_THRESHOLD*100:.1f}%)")
+                print(f"   Original Prediction: {direction} ({confidence*100:.1f}%)")
+
+                # Force DOWN prediction with high confidence
+                direction = "DOWN"
+                # Use magnitude of weakness score to estimate downward movement
+                # Scale it appropriately (e.g., 0.5% weakness → 1-2% down)
+                predicted_pct_change = -(latest_inr_weakness * 200)  # Amplify the weakness signal
+                confidence = min(0.95, 0.70 + (latest_inr_weakness * 50))  # 70-95% confidence based on weakness
+
+                print(f"   → OVERRIDDEN TO: {direction} ({confidence*100:.1f}% confidence)")
+                print(f"   → Predicted Change: {predicted_pct_change:.2f}%")
+                print(f"   ✓ FII selling pressure + INR weakness = STRONG BEARISH SIGNAL")
+        except Exception as e:
+            print(f"   ⚠ Could not apply INR weakness override: {e}")
+
         # Calculate uncertainty based on confidence
         # Lower confidence = wider range
         uncertainty_factor = (1 - confidence) * 2  # 0 to 2

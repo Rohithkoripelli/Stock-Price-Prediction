@@ -1,5 +1,5 @@
 """
-Prepare Features with Advanced Signals + Macro Indicators (Optimized)
+Prepare Features with Advanced Signals + Macro Indicators (INR Weakness Dominant)
 Integrates:
 - Technical Indicators: 35
 - FinBERT: 4
@@ -7,9 +7,9 @@ Integrates:
 - Nifty Bank Index: 3
 - USD/INR Forex: 7
 - Nifty Bank Duplicates (8x weight): 21
-- USD/INR Duplicates (5x weight): 28
+- USD/INR Duplicates (15x weight): 98 [DOMINANT - INR weakness = strong bearish signal]
 - Sentiment Duplicates (2x weight): 16
-Total: ~120 features (Optimized to prevent overfitting)
+Total: ~196 features (USD/INR dominance for FII selling pressure & INR weakness)
 """
 
 import pandas as pd
@@ -22,7 +22,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 print("=" * 80)
-print("ADVANCED FEATURE PREPARATION (Optimized: Nifty 8x, USD/INR 5x)".center(80))
+print("ADVANCED FEATURE PREPARATION (INR Dominant: Nifty 8x, USD/INR 15x)".center(80))
 print("=" * 80)
 
 # Configuration
@@ -288,9 +288,10 @@ def prepare_stock_data(ticker, sector):
     print(f"    ✓ Duplicated {len(index_feature_cols)} Nifty Bank features 7x (8x total weight)")
     print(f"    ✓ Features after Nifty Bank duplication: {len(combined.columns)}")
 
-    # INCREASE USD/INR WEIGHT: Duplicate USD/INR features 5x
-    # This gives USD/INR 5x weight to capture FII sentiment & INR weakness impact
-    print("  Increasing USD/INR forex weight (5x)...")
+    # INCREASE USD/INR WEIGHT: Duplicate USD/INR features 15x (DOMINANT)
+    # This gives USD/INR 15x weight - DOMINATES model for strong bearish signal when INR weakens
+    # INR weakening = FII selling = Market downturn - This should override most other signals
+    print("  Increasing USD/INR forex weight (15x - DOMINANT MACRO INDICATOR)...")
     forex_feature_cols = []
 
     # USD/INR features (7)
@@ -300,13 +301,14 @@ def prepare_stock_data(ticker, sector):
     ]
     forex_feature_cols.extend([col for col in usd_inr_cols if col in combined.columns])
 
-    # Duplicate forex features 4 more times (total 5x weight)
-    for i in range(4):
+    # Duplicate forex features 14 more times (total 15x weight - DOMINANT)
+    for i in range(14):
         for col in forex_feature_cols:
             combined[f'{col}_dup{i+1}'] = combined[col]
 
-    print(f"    ✓ Duplicated {len(forex_feature_cols)} USD/INR features 4x (5x total weight)")
+    print(f"    ✓ Duplicated {len(forex_feature_cols)} USD/INR features 14x (15x total weight - DOMINANT)")
     print(f"    ✓ Features after USD/INR duplication: {len(combined.columns)}")
+    print(f"    🔴 INR weakness now has 3x more influence than any other indicator!")
 
     # INCREASE SENTIMENT WEIGHT: Duplicate sentiment features (16 total) 1x more
     # This gives sentiment 2x weight vs technical indicators

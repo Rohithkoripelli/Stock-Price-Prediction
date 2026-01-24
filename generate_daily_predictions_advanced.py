@@ -113,17 +113,21 @@ for ticker, stock_name, sector in STOCKS:
                 print(f"\n   🔴 INR WEAKNESS OVERRIDE TRIGGERED!")
                 print(f"   USD/INR Rate: ₹{latest_usd_inr_rate:.4f}")
                 print(f"   INR Weakness Score: {latest_inr_weakness*100:.2f}% (Threshold: {INR_WEAKNESS_THRESHOLD*100:.1f}%)")
-                print(f"   Original Prediction: {direction} ({confidence*100:.1f}%)")
+                print(f"   Original Prediction: {direction} ({confidence*100:.1f}%) Change: {predicted_pct_change:+.2f}%")
 
-                # Force DOWN prediction with high confidence
+                # Force DOWN prediction
+                # Use model's magnitude but amplify it by INR weakness factor
+                # This ensures each stock gets different predicted changes based on their characteristics
+                original_magnitude = abs(magnitude)  # Get the model's predicted magnitude
+                inr_amplification = 1 + (latest_inr_weakness * 100)  # 1.0 to ~1.5x amplification
+
                 direction = "DOWN"
-                # Use magnitude of weakness score to estimate downward movement
-                # Scale it appropriately (e.g., 0.5% weakness → 1-2% down)
-                predicted_pct_change = -(latest_inr_weakness * 200)  # Amplify the weakness signal
+                predicted_pct_change = -abs(original_magnitude * inr_amplification)  # Force negative, amplify by INR
                 confidence = min(0.95, 0.70 + (latest_inr_weakness * 50))  # 70-95% confidence based on weakness
 
                 print(f"   → OVERRIDDEN TO: {direction} ({confidence*100:.1f}% confidence)")
-                print(f"   → Predicted Change: {predicted_pct_change:.2f}%")
+                print(f"   → Model Magnitude: {original_magnitude:.2f}% × INR Amplification: {inr_amplification:.2f}x")
+                print(f"   → Final Predicted Change: {predicted_pct_change:.2f}%")
                 print(f"   ✓ FII selling pressure + INR weakness = STRONG BEARISH SIGNAL")
         except Exception as e:
             print(f"   ⚠ Could not apply INR weakness override: {e}")

@@ -110,13 +110,64 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
+            # Show what's being committed
+            echo "Changes to commit:"
+            git status --short
+
+            # Commit all staged changes
             git commit -m "Auto-update: Advanced Signals predictions + data ($(date '+%Y-%m-%d'))"
 
-            # Pull latest changes and rebase our commit on top
-            git pull --rebase origin main || echo "No conflicts to resolve"
+            # Check for any remaining unstaged changes and stash them
+            if ! git diff --quiet; then
+              echo "Warning: Unstaged changes detected, stashing them..."
+              git stash --include-untracked
+              STASHED=true
+            else
+              STASHED=false
+            fi
 
-            # Push changes
-            git push
+            # Fetch and rebase with retry logic
+            MAX_RETRIES=3
+            RETRY_COUNT=0
+            PUSH_SUCCESS=false
+
+            while [ $RETRY_COUNT -lt $MAX_RETRIES ] && [ "$PUSH_SUCCESS" = "false" ]; do
+              echo "Attempt $((RETRY_COUNT + 1)) of $MAX_RETRIES..."
+
+              # Fetch latest changes
+              git fetch origin main
+
+              # Rebase our commit on top of origin/main
+              if git rebase origin/main; then
+                echo "Rebase successful"
+
+                # Try to push
+                if git push origin main; then
+                  echo "Push successful!"
+                  PUSH_SUCCESS=true
+                else
+                  echo "Push failed, will retry..."
+                  RETRY_COUNT=$((RETRY_COUNT + 1))
+                  sleep 5
+                fi
+              else
+                echo "Rebase failed, aborting and retrying..."
+                git rebase --abort
+                RETRY_COUNT=$((RETRY_COUNT + 1))
+                sleep 5
+              fi
+            done
+
+            # Restore stashed changes if any
+            if [ "$STASHED" = "true" ]; then
+              echo "Restoring stashed changes..."
+              git stash pop || echo "No stash to pop"
+            fi
+
+            if [ "$PUSH_SUCCESS" = "false" ]; then
+              echo "ERROR: Failed to push after $MAX_RETRIES attempts"
+              exit 1
+            fi
           fi
 
       - name: Trigger Vercel deployment

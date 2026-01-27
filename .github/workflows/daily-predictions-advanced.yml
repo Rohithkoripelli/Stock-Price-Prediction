@@ -117,57 +117,69 @@ jobs:
             # Commit all staged changes
             git commit -m "Auto-update: Advanced Signals predictions + data ($(date '+%Y-%m-%d'))"
 
-            # Check for any remaining unstaged changes and stash them
-            if ! git diff --quiet; then
-              echo "Warning: Unstaged changes detected, stashing them..."
-              git stash --include-untracked
-              STASHED=true
-            else
-              STASHED=false
-            fi
-
-            # Fetch and rebase with retry logic
-            MAX_RETRIES=3
+            # Push with retry logic and automatic merge conflict resolution
+            MAX_RETRIES=5
             RETRY_COUNT=0
             PUSH_SUCCESS=false
 
             while [ $RETRY_COUNT -lt $MAX_RETRIES ] && [ "$PUSH_SUCCESS" = "false" ]; do
-              echo "Attempt $((RETRY_COUNT + 1)) of $MAX_RETRIES..."
+              echo "═══════════════════════════════════════════════════════"
+              echo "Attempt $((RETRY_COUNT + 1)) of $MAX_RETRIES"
+              echo "═══════════════════════════════════════════════════════"
+
+              # Try direct push first
+              if git push origin main; then
+                echo "✓ Push successful!"
+                PUSH_SUCCESS=true
+                break
+              fi
+
+              echo "Push rejected - remote has updates. Pulling changes..."
 
               # Fetch latest changes
               git fetch origin main
 
-              # Rebase our commit on top of origin/main
-              if git rebase origin/main; then
-                echo "Rebase successful"
+              # Pull with merge strategy (not rebase) to auto-resolve conflicts
+              # -X ours: In case of conflict, prefer our (workflow's) changes
+              # --no-edit: Don't open editor for merge commit message
+              if git pull --no-rebase origin main -X ours --no-edit -m "Merge remote changes into automated update"; then
+                echo "✓ Merge successful"
 
-                # Try to push
+                # Try push again after merge
                 if git push origin main; then
-                  echo "Push successful!"
+                  echo "✓ Push successful after merge!"
                   PUSH_SUCCESS=true
+                  break
                 else
-                  echo "Push failed, will retry..."
-                  RETRY_COUNT=$((RETRY_COUNT + 1))
-                  sleep 5
+                  echo "⚠ Push failed after merge, retrying..."
                 fi
               else
-                echo "Rebase failed, aborting and retrying..."
-                git rebase --abort
-                RETRY_COUNT=$((RETRY_COUNT + 1))
+                echo "✗ Merge failed, aborting and retrying..."
+                git merge --abort 2>/dev/null || true
+              fi
+
+              RETRY_COUNT=$((RETRY_COUNT + 1))
+              if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
+                echo "Waiting 5 seconds before retry..."
                 sleep 5
               fi
             done
 
-            # Restore stashed changes if any
-            if [ "$STASHED" = "true" ]; then
-              echo "Restoring stashed changes..."
-              git stash pop || echo "No stash to pop"
-            fi
-
             if [ "$PUSH_SUCCESS" = "false" ]; then
+              echo "═══════════════════════════════════════════════════════"
               echo "ERROR: Failed to push after $MAX_RETRIES attempts"
+              echo "═══════════════════════════════════════════════════════"
+              echo "Repository state:"
+              git status
+              echo ""
+              echo "Recent commits:"
+              git log --oneline -5
               exit 1
             fi
+
+            echo "═══════════════════════════════════════════════════════"
+            echo "✓ All changes successfully pushed to GitHub"
+            echo "═══════════════════════════════════════════════════════"
           fi
 
       - name: Trigger Vercel deployment

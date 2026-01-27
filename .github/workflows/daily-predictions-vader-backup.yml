@@ -1,11 +1,11 @@
 name: Daily Stock Predictions
 
 on:
-  # Schedule: Run daily at 10 PM IST (4:30 PM UTC)
-  schedule:
-    - cron: '30 16 * * *'  # 4:30 PM UTC = 10:00 PM IST
+  # DISABLED: Old VADER backup, replaced by daily-predictions-advanced.yml
+  # schedule:
+  #   - cron: '30 16 * * *'  # 4:30 PM UTC = 10:00 PM IST
 
-  # Allow manual triggering
+  # Allow manual triggering only
   workflow_dispatch:
 
 permissions:

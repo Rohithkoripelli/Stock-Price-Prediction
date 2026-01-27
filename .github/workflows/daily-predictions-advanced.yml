@@ -141,8 +141,8 @@ jobs:
 
               # Pull with merge strategy (not rebase) to auto-resolve conflicts
               # -X ours: In case of conflict, prefer our (workflow's) changes
-              # --no-edit: Don't open editor for merge commit message
-              if git pull --no-rebase origin main -X ours --no-edit -m "Merge remote changes into automated update"; then
+              # --no-edit: Don't open editor for merge commit message (uses default message)
+              if git pull --no-rebase origin main -X ours --no-edit; then
                 echo "✓ Merge successful"
 
                 # Try push again after merge

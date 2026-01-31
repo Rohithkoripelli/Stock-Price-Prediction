@@ -7,6 +7,7 @@ import pandas as pd
 import numpy as np
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
 import os
+import time
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -17,13 +18,54 @@ print('='*70)
 STOCKS = ['HDFCBANK', 'ICICIBANK', 'KOTAKBANK', 'AXISBANK',
           'SBIN', 'PNB', 'BANKBARODA', 'CANBK']
 
-# Load FinBERT model once
+# Load FinBERT model once with retry logic
 print('\nLoading FinBERT model...')
 model_name = 'yiyanghkust/finbert-tone'
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForSequenceClassification.from_pretrained(model_name)
-finbert = pipeline('sentiment-analysis', model=model, tokenizer=tokenizer, device=-1, framework='pt')
-print('✓ Model loaded\n')
+
+# Set longer timeout for downloads (increased from default)
+import httpx
+from huggingface_hub import snapshot_download
+import transformers
+
+# Configure timeout settings
+os.environ['HF_HUB_DOWNLOAD_TIMEOUT'] = '300'  # 5 minutes timeout
+
+max_retries = 3
+retry_delay = 10  # seconds
+
+for attempt in range(max_retries):
+    try:
+        print(f'  Attempt {attempt + 1}/{max_retries}...')
+
+        # Load tokenizer with timeout settings
+        tokenizer = AutoTokenizer.from_pretrained(
+            model_name,
+            resume_download=True,
+            local_files_only=False
+        )
+
+        # Load model with timeout settings
+        model = AutoModelForSequenceClassification.from_pretrained(
+            model_name,
+            resume_download=True,
+            local_files_only=False
+        )
+
+        finbert = pipeline('sentiment-analysis', model=model, tokenizer=tokenizer, device=-1, framework='pt')
+        print('✓ Model loaded successfully\n')
+        break
+
+    except Exception as e:
+        print(f'  ✗ Attempt {attempt + 1} failed: {str(e)[:100]}')
+
+        if attempt < max_retries - 1:
+            print(f'  ⏳ Retrying in {retry_delay} seconds...')
+            time.sleep(retry_delay)
+            retry_delay *= 2  # Exponential backoff
+        else:
+            print('\n❌ Failed to load FinBERT model after all retries')
+            print('This is likely due to network timeout in GitHub Actions.')
+            raise
 
 os.makedirs('data/finbert_daily_sentiment', exist_ok=True)
 

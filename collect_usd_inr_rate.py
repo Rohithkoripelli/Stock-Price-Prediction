@@ -18,7 +18,8 @@ print("=" * 80)
 # USD/INR symbol on Yahoo Finance
 USD_INR = "USDINR=X"
 START_DATE = "2019-01-01"
-END_DATE = pd.Timestamp.now().strftime('%Y-%m-%d')
+# Note: yfinance end date is EXCLUSIVE, so we add 1 day to include today's data
+END_DATE = (pd.Timestamp.now() + pd.Timedelta(days=1)).strftime('%Y-%m-%d')
 
 os.makedirs('data/forex', exist_ok=True)
 

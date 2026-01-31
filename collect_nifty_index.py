@@ -14,7 +14,8 @@ print("=" * 80)
 NIFTY_BANK = "^NSEBANK"
 BSE_BANKEX = "BANKEX.BO"  # BSE Bankex symbol (alternative format)
 START_DATE = "2019-01-01"
-END_DATE = pd.Timestamp.now().strftime('%Y-%m-%d')
+# Note: yfinance end date is EXCLUSIVE, so we add 1 day to include today's data
+END_DATE = (pd.Timestamp.now() + pd.Timedelta(days=1)).strftime('%Y-%m-%d')
 
 os.makedirs('data/market_index', exist_ok=True)
 

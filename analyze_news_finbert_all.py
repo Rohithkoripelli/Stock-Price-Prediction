@@ -22,13 +22,15 @@ STOCKS = ['HDFCBANK', 'ICICIBANK', 'KOTAKBANK', 'AXISBANK',
 print('\nLoading FinBERT model...')
 model_name = 'yiyanghkust/finbert-tone'
 
-# Set longer timeout for downloads (increased from default)
-import httpx
-from huggingface_hub import snapshot_download
-import transformers
-
 # Configure timeout settings
 os.environ['HF_HUB_DOWNLOAD_TIMEOUT'] = '300'  # 5 minutes timeout
+
+# Use HF_TOKEN if available (from GitHub Actions secrets)
+use_auth_token = os.environ.get('HF_TOKEN', None)
+if use_auth_token:
+    print('  Using HF authentication token')
+else:
+    print('  Warning: No HF_TOKEN found, using unauthenticated requests')
 
 max_retries = 3
 retry_delay = 10  # seconds
@@ -40,15 +42,13 @@ for attempt in range(max_retries):
         # Load tokenizer with timeout settings
         tokenizer = AutoTokenizer.from_pretrained(
             model_name,
-            resume_download=True,
-            local_files_only=False
+            token=use_auth_token
         )
 
         # Load model with timeout settings
         model = AutoModelForSequenceClassification.from_pretrained(
             model_name,
-            resume_download=True,
-            local_files_only=False
+            token=use_auth_token
         )
 
         finbert = pipeline('sentiment-analysis', model=model, tokenizer=tokenizer, device=-1, framework='pt')
@@ -56,7 +56,8 @@ for attempt in range(max_retries):
         break
 
     except Exception as e:
-        print(f'  ✗ Attempt {attempt + 1} failed: {str(e)[:100]}')
+        error_msg = str(e)
+        print(f'  ✗ Attempt {attempt + 1} failed: {error_msg[:200]}')
 
         if attempt < max_retries - 1:
             print(f'  ⏳ Retrying in {retry_delay} seconds...')
@@ -64,7 +65,7 @@ for attempt in range(max_retries):
             retry_delay *= 2  # Exponential backoff
         else:
             print('\n❌ Failed to load FinBERT model after all retries')
-            print('This is likely due to network timeout in GitHub Actions.')
+            print(f'Error: {error_msg}')
             raise
 
 os.makedirs('data/finbert_daily_sentiment', exist_ok=True)

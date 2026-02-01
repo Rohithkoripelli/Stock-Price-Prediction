@@ -28,38 +28,85 @@ jobs:
           python-version: '3.10'
           cache: 'pip'
 
+      - name: Cache Hugging Face models
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: huggingface-finbert-${{ hashFiles('**/analyze_news_finbert_all.py') }}
+          restore-keys: |
+            huggingface-finbert-
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install huggingface_hub
 
-      - name: Collect comprehensive data
+      - name: Collect stock data
+        run: |
+          echo "Collecting latest stock data..."
+          python collect_stock_data.py
+
+      - name: Calculate technical indicators
+        run: |
+          echo "Calculating technical indicators..."
+          python calculate_technical_indicators.py
+
+      - name: Collect Nifty Bank index
+        run: |
+          echo "Collecting Nifty Bank index data..."
+          python collect_nifty_index.py
+
+      - name: Collect USD/INR exchange rate
+        run: |
+          echo "Collecting USD/INR forex data..."
+          python collect_usd_inr_rate.py
+
+      - name: Collect news data
         env:
           GNEWS_API_KEY: ${{ secrets.GNEWS_API_KEY }}
         run: |
-          echo "Collecting comprehensive stock data..."
-          python collect_stock_data.py
-          python calculate_technical_indicators.py
+          echo "Collecting latest news for sentiment analysis..."
+          python collect_news_all_stocks.py
 
-      - name: Prepare features
+      - name: Analyze news with FinBERT
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          echo "Preparing features for modeling..."
-          python prepare_features_for_modeling.py
+          echo "Analyzing news sentiment with FinBERT..."
+          python analyze_news_finbert_all.py
 
-      - name: Retrain models
+      - name: Extract advanced market signals
         run: |
-          echo "Retraining models (this may take a while)..."
+          echo "Extracting advanced trading signals from news..."
+          python analyze_news_advanced_signals.py
+
+      - name: Prepare advanced features
+        run: |
+          echo "Preparing features with advanced signals (196 features)..."
+          python prepare_advanced_features.py
+
+      - name: Retrain V5 Advanced models
+        run: |
+          echo "Retraining V5 Advanced models (this may take several hours)..."
           # Set environment to use CPU only
           export CUDA_VISIBLE_DEVICES=""
           export TF_CPP_MIN_LOG_LEVEL=2
 
-          # Train all models
-          python train_all_v5_transformer.py
+          # Train all V5 Advanced models (196 features, USD/INR 15x weight)
+          python train_all_v5_advanced.py
+
+      - name: Upload models to Hugging Face
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          echo "Uploading retrained models to Hugging Face..."
+          python upload_advanced_models_to_hf.py
 
       - name: Generate fresh predictions
         run: |
           echo "Generating predictions with retrained models..."
-          python generate_daily_predictions.py
+          python generate_daily_predictions_advanced.py
 
       - name: Commit and push changes
         run: |

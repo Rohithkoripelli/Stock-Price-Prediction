@@ -98,7 +98,7 @@ jobs:
 
       - name: Upload models to Hugging Face
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN_WRITE }}
         run: |
           echo "Uploading retrained models to Hugging Face..."
           python upload_advanced_models_to_hf.py

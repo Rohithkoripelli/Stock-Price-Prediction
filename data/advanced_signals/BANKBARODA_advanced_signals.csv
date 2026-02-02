@@ -1,5 +1,4 @@
 date,technical_signal_score,technical_bullish_mentions,technical_bearish_mentions,analyst_rating_score,analyst_rating_present,macro_signal_score,macro_mentions,risk_score,high_risk_mentions,leadership_signal_score,earnings_signal_score,earnings_event_present
-2026-01-03,0.0,0,0,0.0,False,0.0,0,0.15000000000000002,3,0.0,0.0,False
 2026-01-04,0.375,3,0,0.0,False,0.0,0,0.0,0,0.0,0.0,False
 2026-01-05,0.36363636363636365,4,0,0.0,True,0.0,0,0.0,0,0.0,0.0,False
 2026-01-06,0.0,0,0,0.0,False,0.0,0,0.0,0,0.0,0.0,False
@@ -16,11 +15,12 @@ date,technical_signal_score,technical_bullish_mentions,technical_bearish_mention
 2026-01-19,0.0,0,0,0.0,False,0.0,0,0.0,0,0.0,0.0,False
 2026-01-20,0.0,0,0,0.25,True,0.0,0,0.05,1,0.0,0.0,False
 2026-01-21,0.0,0,0,0.0,False,0.0,0,0.0,0,0.0,0.0,False
-2026-01-22,0.3333333333333333,1,0,0.0,False,0.0,0,0.0,0,0.0,0.0,False
+2026-01-22,0.5,1,0,0.0,False,0.0,0,0.0,0,0.0,0.0,False
 2026-01-23,0.3333333333333333,1,0,0.0,False,0.0,0,0.03333333333333333,0,0.0,0.0,False
 2026-01-26,0.0,0,0,0.0,False,0.0,0,0.0,0,0.0,0.0,False
 2026-01-27,0.0,0,0,0.0,False,0.0,0,0.0,0,0.0,0.0,False
 2026-01-29,0.0,0,0,0.0,False,0.0,0,0.05,0,0.0,0.0,False
-2026-01-30,0.043478260869565216,1,0,0.0,False,0.0,0,0.0,0,0.0,0.0,False
+2026-01-30,0.043478260869565216,1,0,0.0,False,0.0,0,0.008695652173913044,0,0.0,0.0,False
 2026-01-31,0.0,0,0,0.0,False,0.0,0,0.0,0,0.0,0.0,False
-2026-02-01,0.0,0,0,0.0,False,0.0,0,0.03333333333333333,0,0.0,0.0,False
+2026-02-01,0.0,0,0,0.0,False,0.0,0,0.05,0,0.0,0.0,False
+2026-02-02,-0.14285714285714285,2,2,-0.2857142857142857,True,0.0,0,0.0,0,0.0,0.0,False

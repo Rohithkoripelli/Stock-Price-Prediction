@@ -15,6 +15,17 @@ interface StockPrediction {
   Predicted_Price_High: number;
   Range_Pct: number;
   Potential_Gain_Loss_Mid: number;
+  // Market Mood Override fields
+  Market_Mood_Score?: number;
+  Market_Mood_Label?: string;
+  Override_Action?: string;
+  Override_Reason?: string;
+  Raw_Model_Direction?: string;
+  Raw_Model_Confidence?: number;
+  Raw_Model_Change_Pct?: number;
+  Bank_Nifty_Return_1d?: number | null;
+  Stock_Sentiment?: number;
+  Stock_Sentiment_Label?: string;
 }
 
 export default function Home() {
@@ -74,6 +85,44 @@ export default function Home() {
             Using Advanced Transformer Models trained on historical data
           </p>
         </div>
+
+        {/* Market Mood Banner */}
+        {predictions.length > 0 && predictions[0].Bank_Nifty_Return_1d != null && (
+          <div className={`mb-8 rounded-xl shadow-lg p-6 ${
+            predictions[0].Bank_Nifty_Return_1d < -0.5 ? 'bg-red-50 dark:bg-red-900/30 border-l-4 border-red-500' :
+            predictions[0].Bank_Nifty_Return_1d > 0.5 ? 'bg-green-50 dark:bg-green-900/30 border-l-4 border-green-500' :
+            'bg-yellow-50 dark:bg-yellow-900/30 border-l-4 border-yellow-500'
+          }`}>
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
+                <h2 className="text-lg font-bold text-gray-800 dark:text-white flex items-center gap-2">
+                  {predictions[0].Bank_Nifty_Return_1d < -0.5 ? '🔴' :
+                   predictions[0].Bank_Nifty_Return_1d > 0.5 ? '🟢' : '🟡'}
+                  Market Mood: {predictions[0].Market_Mood_Label || 'N/A'}
+                </h2>
+                <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
+                  Bank Nifty: <span className={`font-semibold ${predictions[0].Bank_Nifty_Return_1d >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    {predictions[0].Bank_Nifty_Return_1d >= 0 ? '+' : ''}{predictions[0].Bank_Nifty_Return_1d.toFixed(2)}%
+                  </span>
+                </p>
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">
+                {(() => {
+                  const overridden = predictions.filter(p => p.Override_Action && p.Override_Action !== 'NO_OVERRIDE');
+                  return overridden.length > 0 ? (
+                    <span className="bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-200 px-3 py-1 rounded-full text-xs font-semibold">
+                      ⚡ {overridden.length}/{predictions.length} predictions adjusted by market mood
+                    </span>
+                  ) : (
+                    <span className="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-3 py-1 rounded-full text-xs font-semibold">
+                      ✓ No overrides needed
+                    </span>
+                  );
+                })()}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Stats Summary */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
@@ -171,6 +220,34 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
+
+                  {/* Market Mood & Sentiment */}
+                  {prediction.Stock_Sentiment_Label && (
+                    <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                      <div className="flex justify-between items-center mb-1">
+                        <p className="text-xs text-gray-500 dark:text-gray-400">News Sentiment</p>
+                        <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
+                          prediction.Stock_Sentiment_Label === 'STRONG POSITIVE' || prediction.Stock_Sentiment_Label === 'POSITIVE' ? 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300' :
+                          prediction.Stock_Sentiment_Label === 'STRONG NEGATIVE' || prediction.Stock_Sentiment_Label === 'NEGATIVE' ? 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300' :
+                          'bg-gray-100 text-gray-600 dark:bg-gray-600 dark:text-gray-300'
+                        }`}>
+                          {prediction.Stock_Sentiment_Label}
+                        </span>
+                      </div>
+                      {prediction.Override_Action && prediction.Override_Action !== 'NO_OVERRIDE' && (
+                        <div className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-600">
+                          <p className="text-xs text-amber-600 dark:text-amber-400 font-semibold">
+                            ⚡ {prediction.Override_Action.replace(/_/g, ' ')}
+                          </p>
+                          {prediction.Raw_Model_Direction && prediction.Raw_Model_Direction !== prediction.Predicted_Direction && (
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                              Model predicted {prediction.Raw_Model_Direction} → overridden to {prediction.Predicted_Direction}
+                            </p>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                   {/* Trading Recommendation */}
                   <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900 dark:bg-opacity-20 rounded-lg">

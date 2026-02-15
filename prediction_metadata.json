@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-14T17:04:31.434581",
+  "generated_at": "2026-02-15T17:04:44.296020",
   "model_type": "V5_Transformer_Advanced Signals + Market Mood Override",
   "features_per_stock": 196,
   "total_stocks": 8,
@@ -8,6 +8,6 @@
   "overrides_applied": 8,
   "bank_nifty_return_1d": -0.9106088887425479,
   "bank_nifty_label": "BEARISH",
-  "inr_weakness": 0.0002378979387999,
+  "inr_weakness": -0.0005903210300521,
   "market_mood_system": "v1.0 (Bank Nifty 50% + INR 25% + Sentiment 25%)"
 }

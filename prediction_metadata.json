@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-02-15T17:04:44.296020",
+  "generated_at": "2026-02-16T17:19:53.358431",
   "model_type": "V5_Transformer_Advanced Signals + Market Mood Override",
   "features_per_stock": 196,
   "total_stocks": 8,
-  "avg_confidence": 70.0,
-  "high_confidence_count": 2,
+  "avg_confidence": 93.20257377624512,
+  "high_confidence_count": 8,
   "overrides_applied": 8,
-  "bank_nifty_return_1d": -0.9106088887425479,
-  "bank_nifty_label": "BEARISH",
-  "inr_weakness": -0.0005903210300521,
+  "bank_nifty_return_1d": 1.2668143928827647,
+  "bank_nifty_label": "STRONG BULLISH",
+  "inr_weakness": 0.0014571038492123,
   "market_mood_system": "v1.0 (Bank Nifty 50% + INR 25% + Sentiment 25%)"
 }
